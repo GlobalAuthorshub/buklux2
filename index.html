@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buklux | Read with purpose. Publish with confidence.</title>
+<meta name="description" content="Buklux helps writers turn ideas and manuscripts into books that readers can finish, value and recommend.">
+<meta name="theme-color" content="#0B78B8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B78B8'/%3E%3Cpath d='M16 5c3 4 6 7 6 11 0 3.500-2 6.500-6 11-4-4.500-6-7.500-6-11 0-4 3-7 6-11z' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================
+   BUKLUX  |  Design tokens
+   Change colours and fonts here and the whole site follows.
+   ========================================================== */
+:root{
+  --paper:#FBFCFD; --mist:#F2F6F9; --sand:#F6F3EE;
+  --ink:#14202B; --ink-2:#44525F; --line:#DDE5EC; --edge:#7F90A0;
+  --sky:#0B78B8; --sky-600:#095F93; --sky-300:#7CC4EE; --sky-100:#E3F2FB; --sky-50:#F0F8FD;
+  --danger:#B3261E;
+  --serif:"Fraunces", Georgia, "Times New Roman", serif;
+  --sans:"Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--sans);font-size:1.0625rem;line-height:1.6;color:var(--ink);background:var(--paper)}
+svg{display:block;max-width:100%}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:500;line-height:1.12;letter-spacing:-.01em;margin:0;text-wrap:balance}
+p{margin:0;text-wrap:pretty}
+ul,ol{margin:0}
+a{color:inherit}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--sky-300);outline-offset:3px;border-radius:6px}
+main:focus{outline:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:12px;top:-60px;background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;z-index:100;text-decoration:none}
+.skip:focus{top:12px}
+
+.container{width:min(100% - 40px, 1180px);margin-inline:auto}
+.band{padding-block:clamp(64px,9vw,112px)}
+.band-mist{background:var(--mist)}
+.band-sand{background:var(--sand)}
+.h1{font-size:clamp(2.6rem,7.6vw,4.8rem);letter-spacing:-.02em}
+.h2{font-size:clamp(1.95rem,4.8vw,3.05rem)}
+.h3{font-size:1.3rem}
+.lede{font-size:clamp(1.1rem,2.2vw,1.28rem);color:var(--ink-2);max-width:54ch}
+.muted{color:var(--ink-2)}
+.stack>*+*{margin-top:18px}
+.head{max-width:680px;margin-bottom:clamp(32px,5vw,56px)}
+.head .lede{margin-top:16px}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 26px;border-radius:999px;border:1.5px solid transparent;font-weight:600;font-size:1rem;text-decoration:none;cursor:pointer;transition:background-color .18s,border-color .18s,color .18s,transform .18s,box-shadow .18s;text-align:center}
+.btn-primary{background:var(--sky);color:#fff}
+.btn-primary:hover{background:var(--sky-600);box-shadow:0 8px 20px -8px rgba(11,120,184,.7)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:#fff}
+.btn-sky{background:var(--sky-300);color:var(--ink)}
+.btn-sky:hover{background:#9AD3F3}
+.btn-sm{min-height:42px;padding:0 20px;font-size:.95rem}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.6;cursor:progress}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.link-cta{display:inline-block;font-weight:600;color:var(--sky-600);text-decoration:underline;text-decoration-color:var(--sky-300);text-underline-offset:5px;text-decoration-thickness:2px;transition:text-decoration-color .15s}
+.link-cta:hover{text-decoration-color:var(--sky-600)}
+
+/* ---------- Header ---------- */
+.site-header{position:sticky;top:0;z-index:50;background:rgba(251,252,253,.9);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid transparent;transition:border-color .2s}
+.site-header.scrolled{border-bottom-color:var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--serif);font-weight:600;font-size:1.28rem;letter-spacing:-.01em}
+.brand svg{width:34px;height:34px}
+.menu-btn{width:46px;height:46px;border:1.5px solid var(--line);background:#fff;border-radius:14px;display:grid;place-items:center;cursor:pointer}
+.menu-btn span{display:block;width:20px;height:2px;background:var(--ink);border-radius:2px;position:relative;transition:background .15s}
+.menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0;width:20px;height:2px;background:var(--ink);border-radius:2px;transition:transform .2s,top .2s}
+.menu-btn span::before{top:-6px}.menu-btn span::after{top:6px}
+.menu-btn[aria-expanded="true"] span{background:transparent}
+.menu-btn[aria-expanded="true"] span::before{top:0;transform:rotate(45deg)}
+.menu-btn[aria-expanded="true"] span::after{top:0;transform:rotate(-45deg)}
+.nav{position:absolute;left:0;right:0;top:68px;background:var(--paper);border-bottom:1px solid var(--line);padding:8px 20px 24px;display:none;flex-direction:column;box-shadow:0 24px 30px -24px rgba(20,32,43,.35)}
+.nav.open{display:flex}
+.nav .nl{padding:15px 4px;text-decoration:none;font-weight:500;border-bottom:1px solid var(--line);background:none;border-left:0;border-right:0;border-top:0;text-align:left;cursor:pointer;color:inherit}
+.nav .btn{margin-top:18px}
+.nav [aria-current="page"]{color:var(--sky-600);font-weight:600}
+@media (min-width:920px){
+  .menu-btn{display:none}
+  .nav{position:static;display:flex;flex-direction:row;align-items:center;gap:4px;padding:0;border:0;background:none;box-shadow:none}
+  .nav .nl{padding:9px 14px;border:0;border-radius:999px;transition:background-color .15s}
+  .nav .nl:hover{background:var(--sky-50)}
+  .nav [aria-current="page"]{background:var(--sky-100)}
+  .nav .btn{margin:0 0 0 10px;min-height:44px;padding:0 22px;font-size:.95rem}
+}
+
+/* ---------- Hero ---------- */
+.hero{padding-block:clamp(36px,6vw,88px) clamp(56px,8vw,112px);overflow:hidden}
+.hero-grid{display:grid;gap:44px;align-items:center}
+.hero .lede{margin-top:22px}
+.hero-visual{position:relative;width:min(100%,520px);aspect-ratio:1/1;margin-inline:auto}
+.globe{position:absolute;inset:0;width:100%;height:100%}
+.globe .fill{fill:var(--sky-100)}
+.globe .ln{fill:none;stroke:var(--sky-300);stroke-width:1.5}
+.fan-book{position:absolute;width:37%;filter:drop-shadow(0 18px 20px rgba(20,32,43,.28));animation:fan 1s cubic-bezier(.2,.8,.2,1) both}
+.fan-book .cover{box-shadow:none}
+.fan-1{left:7%;top:24%;--rot:-9deg;--from:55%;animation-delay:.1s}
+.fan-2{left:31.5%;top:12%;--rot:0deg;--from:0%;z-index:2;animation-delay:0s}
+.fan-3{left:56%;top:26%;--rot:9deg;--from:-55%;animation-delay:.1s}
+.fan-book{transform:rotate(var(--rot))}
+@keyframes fan{from{transform:translateX(var(--from)) rotate(0deg);opacity:0}to{transform:translateX(0) rotate(var(--rot));opacity:1}}
+@media (min-width:920px){
+  .hero-grid{grid-template-columns:1.08fr .92fr;gap:56px}
+}
+
+/* ---------- Intro ---------- */
+.intro{display:grid;gap:36px}
+.duo{display:grid;gap:16px;margin-top:30px}
+.duo a{display:block;text-decoration:none;padding:26px;border-radius:22px;background:var(--sky-50);border:1px solid var(--sky-100);transition:background-color .2s,border-color .2s}
+.duo a:nth-child(2){background:var(--sand);border-color:#ECE6DB}
+.duo a:hover{border-color:var(--sky-300)}
+.duo h3{font-size:1.35rem;margin-bottom:8px}
+.duo p{color:var(--ink-2);margin-bottom:12px}
+@media (min-width:900px){
+  .intro{grid-template-columns:.9fr 1.1fr;gap:72px;align-items:start}
+  .duo{grid-template-columns:1fr 1fr}
+}
+
+/* ---------- Services ---------- */
+.svc-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.svc{background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:12px;transition:border-color .2s,box-shadow .2s,transform .2s}
+.svc:hover{border-color:var(--sky-300);box-shadow:0 18px 30px -22px rgba(11,120,184,.55);transform:translateY(-3px)}
+.svc-ico{width:48px;height:48px;border-radius:14px;background:var(--sky-100);color:var(--sky-600);display:grid;place-items:center}
+.svc p{color:var(--ink-2);flex:1;font-size:1rem}
+.svc .link-cta{align-self:flex-start;margin-top:6px}
+
+/* ---------- Journey ---------- */
+.journey{list-style:none;padding:0;margin:0;display:grid;gap:30px}
+.step{position:relative;padding-left:68px}
+.step .n{position:absolute;left:0;top:0;width:46px;height:46px;border-radius:50%;background:var(--sky);color:#fff;display:grid;place-items:center;font-family:var(--serif);font-weight:600;font-size:1.15rem}
+.step::before{content:"";position:absolute;left:22px;top:52px;bottom:-26px;width:2px;background:var(--sky-300)}
+.step:last-child::before{display:none}
+.step h3{font-size:1.2rem;margin-bottom:6px}
+.step p{color:var(--ink-2);font-size:1rem}
+@media (min-width:920px){
+  .journey{grid-template-columns:repeat(5,1fr);gap:28px}
+  .step{padding:70px 0 0}
+  .step::before{left:56px;right:-16px;top:22px;bottom:auto;width:auto;height:2px}
+}
+
+/* ---------- Books ---------- */
+.grid-books{display:grid;gap:30px 24px;grid-template-columns:1fr}
+@media (min-width:640px){.grid-books{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:960px){.grid-books{grid-template-columns:repeat(3,1fr)}}
+.book-card{display:grid;grid-template-columns:104px 1fr;gap:18px;align-items:start}
+.cover-stage{display:block;text-decoration:none}
+.cover{display:block;width:100%;height:auto;border-radius:3px 8px 8px 3px;box-shadow:0 1px 0 rgba(20,32,43,.06),0 16px 26px -14px rgba(20,32,43,.5),0 2px 6px rgba(20,32,43,.14);transition:transform .25s ease}
+.cover-stage:hover .cover{transform:translateY(-5px)}
+.book-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.pill{display:inline-block;font-size:.82rem;font-weight:600;color:var(--sky-600);background:var(--sky-100);padding:3px 11px;border-radius:999px}
+.save-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--ink-2);display:grid;place-items:center;cursor:pointer;transition:color .15s,border-color .15s,background-color .15s;flex:none}
+.save-btn:hover{border-color:var(--sky);color:var(--sky)}
+.save-btn[aria-pressed="true"]{color:var(--sky);background:var(--sky-100);border-color:var(--sky-300)}
+.save-btn[aria-pressed="true"] svg{fill:currentColor}
+.book-info h3{font-size:1.22rem;margin-bottom:2px}
+.book-info h3 a{text-decoration:none}
+.book-info h3 a:hover{color:var(--sky-600)}
+.by{font-size:.95rem;color:var(--ink-2);margin-bottom:8px}
+.desc{font-size:.98rem;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:14px}
+@media (min-width:640px){
+  .book-card{grid-template-columns:1fr;gap:20px}
+  .cover-stage{background:var(--mist);border-radius:24px;padding:34px 0;display:grid;place-items:center}
+  .cover-stage .cover{width:56%}
+  .band-mist .cover-stage{background:#fff}
+}
+.more{margin-top:44px;text-align:center}
+
+/* ---------- Why ---------- */
+.why{display:grid;gap:36px}
+.why-list{list-style:none;padding:0;margin:0}
+.why-list li{display:grid;grid-template-columns:40px 1fr;gap:16px;padding:22px 0;border-top:1px solid var(--line)}
+.why-list li:last-child{border-bottom:1px solid var(--line)}
+.tick{width:36px;height:36px;border-radius:50%;background:var(--sky-100);color:var(--sky-600);display:grid;place-items:center}
+.why-list h3{font-size:1.18rem;margin-bottom:4px}
+.why-list p{color:var(--ink-2);font-size:1rem}
+@media (min-width:900px){.why{grid-template-columns:.8fr 1.2fr;gap:80px}.why .head{position:sticky;top:110px;align-self:start}}
+
+/* ---------- Author CTA ---------- */
+.cta-band{background:var(--ink);color:#fff;position:relative;overflow:hidden}
+.cta-band .container{position:relative;z-index:1}
+.cta-band .lede{color:#C9D6E0;margin-top:18px}
+.cta-globe{position:absolute;right:-120px;bottom:-140px;width:420px;height:420px;opacity:.9}
+.cta-globe .ln{fill:none;stroke:#2B4A60;stroke-width:1.5}
+@media (min-width:900px){.cta-globe{right:-40px;width:560px;height:560px;bottom:-200px}}
+
+/* ---------- Newsletter ---------- */
+.news{display:grid;gap:28px}
+.inline-form{display:grid;gap:12px}
+.inline-form .field input{background:#fff}
+@media (min-width:900px){.news{grid-template-columns:1fr 1fr;gap:72px;align-items:center}}
+@media (min-width:560px){.inline-form.row{grid-template-columns:1fr auto;align-items:start}.inline-form.row .err{grid-column:1/-1}}
+
+/* ---------- Page hero (inner pages) ---------- */
+.page-hero{padding-block:clamp(48px,8vw,96px) clamp(32px,5vw,56px);background:linear-gradient(180deg,var(--sky-50),var(--paper))}
+.page-hero .lede{margin-top:20px}
+
+/* ---------- Authors page ---------- */
+.who{display:grid;gap:14px;margin-top:34px;grid-template-columns:1fr}
+.who div{padding:18px 20px;border-radius:16px;background:#fff;border:1px solid var(--line);font-weight:500}
+@media (min-width:700px){.who{grid-template-columns:1fr 1fr}}
+.stages{display:grid;gap:14px;grid-template-columns:1fr}
+.stage{text-align:left;padding:22px;border-radius:20px;border:1.5px solid var(--line);background:#fff;cursor:pointer;color:inherit;display:grid;gap:6px;transition:border-color .18s,background-color .18s,box-shadow .18s}
+.stage strong{font-family:var(--serif);font-size:1.2rem;font-weight:500}
+.stage span{color:var(--ink-2);font-size:.98rem}
+.stage:hover{border-color:var(--sky-300);box-shadow:0 14px 26px -22px rgba(11,120,184,.6)}
+.stage[aria-pressed="true"]{border-color:var(--sky);background:var(--sky-50)}
+@media (min-width:640px){.stages{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1000px){.stages{grid-template-columns:repeat(5,1fr)}}
+.acc{display:grid;gap:12px}
+.acc details{background:#fff;border:1px solid var(--line);border-radius:18px;padding:0 22px;transition:border-color .2s}
+.acc details[open]{border-color:var(--sky-300)}
+.acc summary{list-style:none;cursor:pointer;padding:20px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:var(--serif);font-size:1.2rem;font-weight:500}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";font-family:var(--sans);font-size:1.6rem;line-height:1;color:var(--sky-600);transition:transform .2s}
+.acc details[open] summary::after{transform:rotate(45deg)}
+.acc .body{padding:0 0 24px;display:grid;gap:14px;color:var(--ink-2)}
+.acc ul{padding-left:20px;display:grid;gap:4px}
+.acc .body strong{color:var(--ink)}
+.submit-wrap{display:grid;gap:36px}
+.submit-card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:clamp(22px,4vw,40px);box-shadow:0 30px 50px -40px rgba(20,32,43,.4)}
+.next{list-style:none;padding:0;display:grid;gap:18px;margin-top:26px}
+.next li{display:grid;grid-template-columns:36px 1fr;gap:14px}
+.next b{width:36px;height:36px;border-radius:50%;background:var(--sky-100);color:var(--sky-600);display:grid;place-items:center;font-family:var(--serif)}
+@media (min-width:980px){.submit-wrap{grid-template-columns:.7fr 1.3fr;gap:64px;align-items:start}.submit-wrap .head{margin-bottom:0}}
+
+/* ---------- Forms ---------- */
+.form-grid{display:grid;gap:20px}
+.field{display:grid;gap:7px}
+.field label,.legend{font-weight:600;font-size:.96rem}
+.req{color:var(--sky-600)}
+.field input,.field select,.field textarea{font:inherit;color:inherit;width:100%;min-height:50px;padding:12px 15px;border:1.5px solid var(--edge);border-radius:14px;background:#fff;transition:border-color .15s,box-shadow .15s}
+.field textarea{min-height:140px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 4px var(--sky-100)}
+.field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--danger)}
+.err{color:var(--danger);font-size:.92rem}
+.err:empty{display:none}
+.hint{font-size:.9rem;color:var(--ink-2)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.checks{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.check{position:relative;display:inline-block}
+.check input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer}
+.check span{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1.5px solid var(--edge);border-radius:999px;font-size:.96rem;background:#fff;transition:background-color .15s,border-color .15s,color .15s}
+.check:hover span{border-color:var(--sky)}
+.check input:checked + span{background:var(--sky-100);border-color:var(--sky);color:var(--sky-600);font-weight:600}
+.check input:focus-visible + span{outline:3px solid var(--sky-300);outline-offset:2px}
+.upload{position:relative;display:grid;gap:4px;padding:22px;border:1.5px dashed var(--edge);border-radius:16px;background:var(--sky-50);text-align:center;cursor:pointer;transition:border-color .15s,background-color .15s}
+.upload:hover,.upload:focus-within{border-color:var(--sky);background:var(--sky-100)}
+.upload input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;min-height:0;padding:0}
+.upload strong{color:var(--sky-600)}
+.field.invalid .upload{border-color:var(--danger)}
+.status{padding:14px 16px;border-radius:14px;font-size:.96rem}
+.status[hidden]{display:none}
+.status.ok{background:#E6F4EA;color:#14532D}
+.status.info{background:var(--sky-100);color:#0B4A73}
+.status.error{background:#FCE8E6;color:#8A1C14}
+.form-actions{display:grid;gap:14px}
+.fine{font-size:.88rem;color:var(--ink-2)}
+@media (min-width:640px){.form-grid.two{grid-template-columns:1fr 1fr}.span-2{grid-column:1/-1}}
+
+/* ---------- Books page ---------- */
+.controls{display:grid;gap:16px;margin-bottom:12px}
+.search{position:relative}
+.search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--ink-2);pointer-events:none}
+.search input{width:100%;min-height:54px;padding:0 18px 0 48px;font:inherit;border:1.5px solid var(--edge);border-radius:999px;background:#fff}
+.search input:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 4px var(--sky-100)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;scrollbar-width:thin}
+.chip{flex:none;min-height:42px;padding:0 18px;border-radius:999px;border:1.5px solid var(--edge);background:#fff;cursor:pointer;font-weight:500;color:var(--ink);transition:background-color .15s,border-color .15s,color .15s}
+.chip:hover{border-color:var(--sky)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.ctrl-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;justify-content:space-between}
+.ctrl-row .left{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.ctrl-row select{font:inherit;min-height:42px;padding:0 14px;border:1.5px solid var(--edge);border-radius:12px;background:#fff}
+.count{color:var(--ink-2);font-size:.95rem}
+.shelf+.shelf{margin-top:clamp(56px,8vw,96px)}
+.shelf-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:28px}
+.shelf-panel{background:var(--mist);border-radius:32px;padding:clamp(24px,4vw,48px)}
+.empty{padding:48px 24px;text-align:center;border:1.5px dashed var(--edge);border-radius:24px;background:#fff}
+.empty p{margin:10px auto 22px;max-width:44ch;color:var(--ink-2)}
+.sample-note{margin-top:14px;font-size:.92rem;color:var(--ink-2)}
+
+/* ---------- Book detail ---------- */
+.back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;color:var(--sky-600);margin-bottom:28px}
+.back:hover{text-decoration:underline}
+.detail{display:grid;gap:40px}
+.detail-stage{background:var(--mist);border-radius:32px;padding:clamp(32px,6vw,64px) 20px;display:grid;place-items:center}
+.detail-stage .cover{width:min(62%,300px);transition:none}
+.detail h1{margin:12px 0 8px}
+.detail .by{font-size:1.1rem;margin-bottom:20px}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;margin:28px 0;padding:22px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.meta dt{font-size:.88rem;color:var(--ink-2)}
+.meta dd{margin:0;font-weight:600}
+.about-author{margin-top:clamp(48px,7vw,80px);display:grid;gap:14px;max-width:700px}
+@media (min-width:900px){.detail{grid-template-columns:.9fr 1.1fr;gap:72px;align-items:start}.detail-stage{position:sticky;top:96px}}
+
+/* ---------- About ---------- */
+.story{display:grid;gap:28px}
+.story p{font-size:1.18rem;line-height:1.7}
+.story p:first-child{font-family:var(--serif);font-size:clamp(1.4rem,3vw,1.9rem);line-height:1.35}
+.mv{display:grid;gap:18px}
+.mv>div{padding:clamp(26px,4vw,40px);border-radius:28px;background:#fff;border:1px solid var(--line)}
+.mv>div:first-child{background:var(--sky-50);border-color:var(--sky-100)}
+.mv h2{font-size:1.6rem;margin-bottom:12px}
+.beliefs{list-style:none;padding:0;margin:0;display:grid;gap:0}
+.beliefs li{padding:22px 0;border-top:1px solid var(--line);font-family:var(--serif);font-size:clamp(1.25rem,2.6vw,1.6rem);line-height:1.3}
+.beliefs li:last-child{border-bottom:1px solid var(--line)}
+@media (min-width:900px){.story{grid-template-columns:.8fr 1.2fr;gap:72px}.mv{grid-template-columns:1fr 1fr}}
+
+/* ---------- Contact ---------- */
+.contact-grid{display:grid;gap:36px}
+.ways{display:grid;gap:14px}
+.way{display:flex;gap:16px;align-items:center;padding:20px;border-radius:20px;border:1px solid var(--line);background:#fff;text-decoration:none;transition:border-color .18s,box-shadow .18s}
+.way:hover{border-color:var(--sky-300);box-shadow:0 14px 26px -22px rgba(11,120,184,.6)}
+.way .ico{width:48px;height:48px;border-radius:14px;background:var(--sky-100);color:var(--sky-600);display:grid;place-items:center;flex:none}
+.way strong{display:block}
+.way span.s{color:var(--ink-2);font-size:.95rem}
+.socials{display:flex;gap:10px;flex-wrap:wrap}
+.social{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;color:var(--ink);background:#fff;transition:background-color .15s,color .15s,border-color .15s}
+.social:hover{background:var(--sky);border-color:var(--sky);color:#fff}
+@media (min-width:980px){.contact-grid{grid-template-columns:.8fr 1.2fr;gap:64px;align-items:start}}
+
+/* ---------- Legal ---------- */
+.legal{max-width:720px}
+.legal h2{font-size:1.5rem;margin:36px 0 10px}
+.legal p,.legal li{color:var(--ink-2)}
+.legal ul{padding-left:22px}
+.banner{padding:14px 18px;border-radius:14px;background:var(--sky-100);color:#0B4A73;margin-bottom:12px;font-size:.96rem}
+
+/* ---------- Footer ---------- */
+.site-footer{background:var(--ink);color:#fff;padding-block:clamp(48px,7vw,80px) 28px}
+.foot{display:grid;gap:36px}
+.foot .brand{color:#fff}
+.foot p{color:#B8C7D3;max-width:36ch;margin-top:14px}
+.foot h4{font-family:var(--sans);font-size:.95rem;font-weight:600;color:#fff;margin-bottom:12px;letter-spacing:0}
+.foot ul{list-style:none;padding:0;display:grid;gap:8px}
+.foot ul a{color:#B8C7D3;text-decoration:none}
+.foot ul a:hover{color:#fff;text-decoration:underline}
+.foot .social{background:transparent;border-color:#33495A;color:#fff}
+.foot .social:hover{background:var(--sky-300);border-color:var(--sky-300);color:var(--ink)}
+.foot-links{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.legal-line{margin-top:44px;padding-top:22px;border-top:1px solid #2A3E4E;color:#8FA3B3;font-size:.92rem}
+@media (min-width:900px){.foot{grid-template-columns:1.1fr 1.4fr;gap:80px}.foot-links{grid-template-columns:1fr 1fr 1fr}}
+
+/* ---------- Modal + toast ---------- */
+dialog{border:0;border-radius:26px;padding:0;width:min(100% - 32px,480px);color:var(--ink);box-shadow:0 40px 80px -30px rgba(20,32,43,.6)}
+dialog::backdrop{background:rgba(20,32,43,.55)}
+.modal-body{padding:34px 28px 28px;display:grid;gap:14px}
+.modal-body p{color:var(--ink-2)}
+.modal-close{position:absolute;top:12px;right:12px;width:42px;height:42px;border-radius:50%;border:0;background:var(--mist);cursor:pointer;font-size:1.4rem;line-height:1;color:var(--ink)}
+.modal-close:hover{background:var(--sky-100)}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:13px 20px;border-radius:999px;font-size:.95rem;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:200;max-width:calc(100% - 32px);text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+.market-panel{max-width:900px;margin:0 auto;padding:28px 20px 64px}.market-panel h1{margin-bottom:10px}.market-panel .muted{color:var(--ink-2)}
+.market-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;margin:18px 0;box-shadow:0 8px 26px rgba(20,32,43,.04)}
+.market-form{display:grid;gap:14px;margin-top:18px}.market-form label{display:grid;gap:6px;font-weight:600;font-size:.95rem}.market-form input,.market-form textarea,.market-form select{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff;color:var(--ink)}
+.market-form textarea{min-height:100px}.market-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.market-book{border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;overflow-wrap:anywhere}.market-book h3{font-size:1.35rem}.market-book .price{font-weight:700}.market-status{padding:10px 12px;border-radius:10px;background:var(--mist);margin:12px 0}.market-status.error{background:#fff0ee;color:#8c211b}.market-status.ok{background:#e9f8ef;color:#17653a}.market-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.market-actions button{cursor:pointer}.market-small{font-size:.9rem;color:var(--ink-2)}
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header" id="header">
+  <div class="container bar">
+    <a class="brand" href="#/" aria-label="Buklux, home">
+      <svg viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="9" fill="#0B78B8"/><path d="M17 6c3.200 4.200 6.400 7.400 6.400 11.600 0 3.600-2.200 6.800-6.400 11.400-4.200-4.600-6.400-7.800-6.400-11.400C10.600 13.400 13.800 10.200 17 6Z" fill="#fff"/><circle cx="17" cy="16.500" r="1.900" fill="#0B78B8"/><path d="M17 18.400V25" stroke="#0B78B8" stroke-width="1.600" stroke-linecap="round"/></svg>
+      <span>Buklux</span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="Open menu"><span></span></button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a class="nl" href="#/" data-nav="home">Home</a>
+      <a class="nl" href="#/authors" data-nav="authors">For Authors</a>
+      <a class="nl" href="#/books" data-nav="books">Books</a>
+      <a class="nl" href="#/about" data-nav="about">About</a>
+      <a class="nl" href="#/contact" data-nav="contact">Contact</a>
+      <a class="nl" href="#/library" data-nav="library">My Library</a>
+      <a class="nl" href="#/dashboard" data-nav="dashboard">Author Dashboard</a>
+      <button class="nl" type="button" data-action="signin">Sign in</button>
+      <a class="btn btn-primary" href="#/authors/submit">Submit Your Project</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1"></main>
+
+<footer class="site-footer" id="footer"></footer>
+
+<dialog id="modal" aria-labelledby="modal-title">
+  <button class="modal-close" type="button" data-action="close-modal" aria-label="Close">&times;</button>
+  <div class="modal-body" id="modal-body"></div>
+</dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ==========================================================================
+   BUKLUX  |  Website
+   One file. No build step. No install. Open index.html and it runs.
+
+   WHERE TO EDIT
+   1. CONFIG        contact details, social links, form services
+   2. BOOKS         the sample books (replace with real ones)
+   3. SERVICES      the eight services
+   4. Page functions below (homePage, aboutPage...) hold the page copy
+
+   HOW THIS IS BUILT FOR THE FUTURE PLATFORM
+   The design is split into reusable parts (bookCard, cover, forms, modal).
+   When you add accounts and a marketplace, you keep all of these parts and
+   change only where the data comes from:
+
+   - BOOKS array        -> replace listBooks() / getBook() with calls to a
+                           database API (Supabase, Firebase, your own server).
+   - Supabase Auth is connected once the public key is added below.
+   - Paystack checkout uses server functions in netlify/functions/ after the
+     Netlify environment secrets are configured.
+   - Saved books        -> currently saved in this browser only. Move to the
+                           database once reader accounts exist.
+   - Reader / dashboard -> reserved routes: #/account, #/library, #/dashboard
+   - Author uploads     -> the author form is the first step. Later, replace it
+                           with an authenticated upload to cloud storage.
+   ========================================================================== */
+
+/* ---------- 1. CONFIG ---------- */
+const CONFIG = {
+  email: "globalbookhouse5@gmail.com",
+  whatsapp: "",
+  social: {                             // CHANGE: paste your full profile links
+    facebook: "",
+    linkedin: "",
+    instagram: "",
+    youtube: ""
+  },
+  /* FORM CONNECTIONS. Paste a form service URL here to make a form send for real.
+     Leave empty and the form runs in demo mode (it validates but sends nothing).
+     Example with Formspree: "https://formspree.io/f/abcdwxyz"            */
+  endpoints: {
+    author: "",       // manuscript / project submissions
+    contact: "",      // contact page messages
+    newsletter: ""    // email signups
+  },
+  maxUploadMB: 20
+};
+
+/* Buklux connection settings. Paste the Supabase publishable/anon key from
+   Supabase > Project Settings > API. Never put a service-role key here. */
+const BUKLUX_SUPABASE_URL = "https://xlczgzptbsllpwjowwwd.supabase.co";
+const BUKLUX_SUPABASE_ANON_KEY = "sb_publishable_N1MGqszlu3jrA1ZV4h9Ulg_PP2kdf0y";
+const supabaseReady = !!(window.supabase && BUKLUX_SUPABASE_ANON_KEY !== "PASTE_YOUR_SUPABASE_ANON_KEY_HERE");
+const sb = supabaseReady ? window.supabase.createClient(BUKLUX_SUPABASE_URL, BUKLUX_SUPABASE_ANON_KEY) : null;
+let currentUser = null;
+let currentRole = "reader";
+
+/* ---------- Small helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const reduceMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fmtDate = iso => new Date(iso + "T00:00:00").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+
+/* Browser storage that never crashes if storage is blocked */
+const store = (() => {
+  const mem = {}; let ok = false;
+  try { localStorage.setItem("__t", "1"); localStorage.removeItem("__t"); ok = true; } catch (e) {}
+  return {
+    get(k, d) { try { if (ok) { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } } catch (e) {} return k in mem ? mem[k] : d; },
+    set(k, v) { mem[k] = v; try { if (ok) localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+})();
+
+/* ---------- 2. BOOKS (sample data) ---------- */
+const BOOKS = [
+  { id: "salt-road-home", title: "The Salt Road Home", author: "Miriam Adeyemi", genre: "Fiction", pages: 312, date: "2026-08-12", format: "E-book and paperback",
+    short: "A midwife follows an old trade route to find the sister she lost. Every town on the way asks something of her.",
+    long: "When Imani inherits her mother's midwife bag, she also inherits a map no one explained. It leads along the old salt road, through market towns and borderlands, toward the sister who vanished twenty years ago. Each town needs her skills. Each one costs her a little more of the story she thought she knew.",
+    bio: "Miriam Adeyemi writes quiet, character-led fiction about family, distance and return. This is her first novel.",
+    palette: ["#0F2A3D", "#F3EAD7", "#E8A33D"], pattern: "sun", featured: true, home: true },
+  { id: "small-hours-big-faith", title: "Small Hours, Big Faith", author: "Joel Mensah", genre: "Faith & Inspiration", pages: 188, date: "2026-07-02", format: "E-book",
+    short: "Short, honest reflections for the hours when you cannot sleep and the questions get loud.",
+    long: "Forty short readings for the night shift of life. Joel writes about doubt, waiting and the strange comfort of small obedience. Each reading takes five minutes. Each one ends with a question you can carry into the morning.",
+    bio: "Joel Mensah is a youth leader and writer. He writes for people who want faith that can survive a hard week.",
+    palette: ["#E3F2FB", "#0F3B57", "#0B78B8"], pattern: "arch", featured: true, home: true },
+  { id: "before-you-pitch", title: "Before You Pitch", author: "Priya Raman", genre: "Business", pages: 224, date: "2026-09-15", format: "E-book and paperback",
+    short: "A practical guide for founders who need to explain their idea clearly before they ask anyone for money.",
+    long: "Most pitches fail before the first slide. Priya shows founders how to find the one sentence their idea depends on, test it on real people and build a pitch around what investors actually need to hear. Short chapters. Real examples. Exercises you can finish in an afternoon.",
+    bio: "Priya Raman has coached early-stage founders across three continents. She writes in plain language and hates jargon.",
+    palette: ["#F3EFE8", "#1B2733", "#D1495B"], pattern: "grid", featured: false, home: true },
+  { id: "what-the-river-kept", title: "What the River Kept", author: "Tomas Aguilar", genre: "Fiction", pages: 276, date: "2026-06-20", format: "E-book and paperback",
+    short: "When the dam opens, a drowned village rises from the water. So do the secrets its people agreed to forget.",
+    long: "A drought pulls the water back and reveals the village that was flooded forty years ago. Journalist Lucia returns to report the story and finds that her own family chose to stay silent. A slow, atmospheric mystery about memory and who gets to keep it.",
+    bio: "Tomas Aguilar is a former reporter. His fiction grows out of the stories that never made the paper.",
+    palette: ["#1F3B34", "#E6F0E8", "#7FB89C"], pattern: "waves", featured: false, home: true },
+  { id: "unlearning-the-hustle", title: "Unlearning the Hustle", author: "Grace Nwosu", genre: "Self-Help", pages: 204, date: "2026-09-28", format: "E-book",
+    short: "You do not need to be busy to be worthy. A kind, direct guide to working well without burning out.",
+    long: "Grace has been tired for most of her career. In this book she questions the habits that said tired meant successful. You will find clear tools for setting limits, saying no and building a work life that you can sustain for years, not weeks.",
+    bio: "Grace Nwosu is a coach and speaker who helps ambitious people slow down on purpose.",
+    palette: ["#FBE8A6", "#2B2A33", "#3E6FB0"], pattern: "stripes", featured: false, home: false },
+  { id: "letters-to-my-younger-self", title: "Letters to My Younger Self", author: "Hannah Lindqvist", genre: "Memoir", pages: 160, date: "2026-05-30", format: "E-book and paperback",
+    short: "Twelve letters across twelve hard years. Warm, funny and brave about growing up far from home.",
+    long: "Hannah left her small town at nineteen and kept moving. These twelve letters are written to the girl she was at each stop. They are honest about mistakes and tender about the people who helped. A short book that stays with you.",
+    bio: "Hannah Lindqvist writes essays and memoir. She lives wherever the work takes her.",
+    palette: ["#EFE6F5", "#2F2142", "#8A63B8"], pattern: "leaf", featured: true, home: true },
+  { id: "crown-of-static", title: "Crown of Static", author: "Kofi Baah", genre: "Young Adult", pages: 340, date: "2026-10-01", format: "E-book and paperback",
+    short: "In a city run by signals, one radio girl hears a frequency that was never meant to be found.",
+    long: "Ama repairs radios in a city where every message is monitored. When she tunes into a hidden channel, she learns that the silence she grew up in was built on purpose. Fast, funny and full of heart. For readers who like their sci-fi with a pulse.",
+    bio: "Kofi Baah writes stories for teenagers and for adults who remember being one.",
+    palette: ["#111827", "#E8F7FF", "#4CC3FF"], pattern: "orbit", featured: false, home: true },
+  { id: "kitchen-table-mba", title: "The Kitchen Table MBA", author: "Samuel Ortiz", genre: "Business", pages: 232, date: "2026-04-18", format: "E-book and paperback",
+    short: "Everything a small business owner needs to know about money, pricing and people. No degree required.",
+    long: "Samuel ran a family shop for twenty years before he wrote this. He explains cash flow, pricing and hiring the way you would explain them to a neighbour. Every chapter ends with a one-page worksheet you can use the same day.",
+    bio: "Samuel Ortiz is a small business owner turned teacher. He writes for people who run things on thin margins.",
+    palette: ["#E7EFE0", "#1F3321", "#E08A2E"], pattern: "dots", featured: false, home: false }
+];
+
+/* Data access. When a database exists, replace these two functions. */
+const listBooks = () => BOOKS;
+const getBook = id => BOOKS.find(b => b.id === id);
+
+/* ---------- 3. SERVICES ---------- */
+const ICONS = {
+  assess: '<circle cx="11" cy="11" r="6.500"/><path d="m20 20-4.200-4.200"/>',
+  structure: '<path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="m3 13 9 5 9-5"/>',
+  line: '<path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.500 6.500 4 4"/>',
+  proof: '<path d="m5 12.500 4.500 4.500L19 7"/>',
+  format: '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 10v10"/>',
+  ebook: '<rect x="6" y="3" width="12" height="18" rx="2"/><path d="M11 18h2"/>',
+  consult: '<path d="M5 5h14v10h-8.500L5 19.500V5Z"/>',
+  cover: '<rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="9" r="1.500"/><path d="m4 17 5-5 4 4 3-3 4 4"/>',
+  check: '<path d="m5 12.500 4.500 4.500L19 7"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.300-4.300"/>',
+  heart: '<path d="M20.800 4.600a5.500 5.500 0 0 0-7.800 0L12 5.700l-1-1.100a5.500 5.500 0 0 0-7.800 7.800l1 1.100L12 21l7.800-7.500 1-1.100a5.500 5.500 0 0 0 0-7.800Z"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+  chat: '<path d="M21 11.500a8.500 8.500 0 0 1-12.600 7.400L3 20.500l1.600-5A8.500 8.500 0 1 1 21 11.500Z"/>',
+  facebook: '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3Z"/>',
+  linkedin: '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6Z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>',
+  instagram: '<rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.400a4 4 0 1 1-7.900 1.200 4 4 0 0 1 7.900-1.200Z"/><path d="M17.500 6.500h.01"/>',
+  youtube: '<path d="M22.500 6.400a2.800 2.800 0 0 0-2-2C18.800 4 12 4 12 4s-6.800 0-8.500.4a2.800 2.800 0 0 0-2 2A29 29 0 0 0 1 12a29 29 0 0 0 .5 5.600 2.800 2.800 0 0 0 2 2C5.200 20 12 20 12 20s6.800 0 8.500-.4a2.800 2.800 0 0 0 2-2A29 29 0 0 0 23 12a29 29 0 0 0-.5-5.600Z"/><path d="m10 15 5-3-5-3Z"/>'
+};
+const icon = (k, size = 24, sw = 1.7) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k]}</svg>`;
+
+const SERVICES = [
+  { key: "assess", name: "Manuscript Assessment", cta: "Request an assessment",
+    short: "We read your whole manuscript and tell you the truth. You get a clear report on what works, what does not and what to fix first.",
+    gets: ["A written report on structure, voice and reader experience", "Your strengths and your biggest gaps, named plainly", "A priority list and a recommended next step"],
+    fit: "Writers with a finished or nearly finished draft who want an honest read before they invest further." },
+  { key: "structure", name: "Developmental & Structural Editing", cta: "Talk about structure",
+    short: "We work on the big picture. Plot, argument, pacing, structure and voice. Your book gets a stronger frame.",
+    gets: ["Chapter-level notes on what to cut, move or deepen", "A structure map you can follow while you revise", "Guidance on pacing, clarity and reader momentum"],
+    fit: "Drafts that feel loose, stuck or uneven, in fiction and nonfiction." },
+  { key: "line", name: "Copy & Line Editing", cta: "Book a line edit",
+    short: "We refine every sentence. Clearer, smoother and consistent, with your voice left exactly as it is.",
+    gets: ["Sentence-level improvements for clarity and rhythm", "Grammar, punctuation and consistency fixes", "Tracked changes so you see every decision"],
+    fit: "Manuscripts whose structure is solid and whose language needs polish." },
+  { key: "proof", name: "Proofreading", cta: "Get proofreading",
+    short: "A final careful pass for typos, punctuation and small errors before readers see your book.",
+    gets: ["A last check of the formatted pages", "Typos, spacing and punctuation slips corrected", "Consistent spelling, names and style"],
+    fit: "Books that are edited and laid out and need one more careful pair of eyes." },
+  { key: "format", name: "Book Formatting", cta: "Format my book",
+    short: "Clean, professional layouts for print and screen. Your pages look like they belong on a real shelf.",
+    gets: ["Interior layout for print and e-book", "Chapter openings, headings and front and back matter", "Files checked and ready for upload"],
+    fit: "Authors with a final text who want it to look professionally published." },
+  { key: "ebook", name: "E-book Publishing", cta: "Plan my e-book",
+    short: "We prepare your files and details for release. You get a book that reads well on any device.",
+    gets: ["E-book files prepared and tested", "Book description, categories and keywords", "Guidance on listing and launch steps"],
+    fit: "Authors ready to release and unsure about the technical side." },
+  { key: "consult", name: "Publishing Consultation", cta: "Book a consultation",
+    short: "Talk through your plans with an experienced editor. Get honest advice on routes, timing and next steps.",
+    gets: ["A one-to-one conversation about your goals", "Plain-language options for how to publish", "A simple plan with clear next steps"],
+    fit: "Writers at any stage who want clarity before they spend money or time." },
+  { key: "cover", name: "Cover Design", cta: "Design my cover",
+    short: "A front cover that fits your genre and catches the right reader. Built to look good as a small thumbnail too.",
+    gets: ["Cover concepts matched to your genre and readers", "Revisions on your chosen direction", "Files sized for print and online listings"],
+    fit: "Authors who know a good cover decides whether a stranger clicks." }
+];
+
+const STAGES = {
+  idea:      { title: "I have an idea", text: "You have a concept but few pages. We help you shape it and plan the path.", select: "Just an idea", help: ["Publishing Consultation"] },
+  manuscript:{ title: "I have a manuscript", text: "You have a draft. We read it and tell you what it needs.", select: "Draft complete", help: ["Manuscript Assessment"] },
+  editor:    { title: "I need an editor", text: "Your draft is ready for deeper work on structure and language.", select: "Draft complete", help: ["Developmental & Structural Editing", "Copy & Line Editing"] },
+  edited:    { title: "My manuscript is edited", text: "The content is solid. You need a final check and a clean layout.", select: "Edited and revised", help: ["Proofreading", "Book Formatting"] },
+  publish:   { title: "I'm ready to publish", text: "You want your book out in the world. We handle files, listing and positioning.", select: "Ready to publish", help: ["E-book Publishing", "Book Formatting", "Cover Design"] }
+};
+
+const GENRES = ["Fiction", "Nonfiction", "Memoir", "Young Adult", "Faith & Inspiration", "Business", "Self-Help", "Poetry", "Children's", "Other"];
+
+/* ---------- Book cover generator (all original artwork) ---------- */
+function wrapTitle(t, max) {
+  const out = []; let cur = "";
+  t.split(" ").forEach(w => { if ((cur + " " + w).trim().length > max && cur) { out.push(cur); cur = w; } else cur = (cur + " " + w).trim(); });
+  if (cur) out.push(cur); return out;
+}
+function patternArt(p, bg, fg, ac) {
+  switch (p) {
+    case "sun": return `<circle cx="150" cy="150" r="80" fill="${ac}"/><rect x="0" y="150" width="300" height="92" fill="${bg}"/>` +
+      [0,1,2,3].map(i => `<rect x="${40 + i*16}" y="${168 + i*16}" width="${220 - i*32}" height="5" rx="2.500" fill="${fg}" opacity="${.9 - i*.2}"/>`).join("");
+    case "waves": return [0,1,2,3,4].map(i => { const y = 52 + i*36; return `<path d="M-10 ${y} q40 -28 80 0 t80 0 t80 0 t80 0" fill="none" stroke="${i%2 ? fg : ac}" stroke-width="8" stroke-linecap="round" opacity="${i%2 ? .5 : 1}"/>`; }).join("");
+    case "grid": { let s = ""; for (let r = 0; r < 4; r++) for (let c = 0; c < 5; c++) { const x = 30 + c*60 + (r%2 ? 30 : 0), y = 44 + r*50; if (x > 285) continue; const a = (r + c) % 3 === 0; s += `<rect x="${x-17}" y="${y-17}" width="34" height="34" transform="rotate(45 ${x} ${y})" fill="${a ? ac : fg}" opacity="${a ? 1 : .3}"/>`; } return s; }
+    case "arch": return `<path d="M55 242V132a95 95 0 0 1 190 0V242Z" fill="${ac}"/><path d="M85 242V138a65 65 0 0 1 130 0V242Z" fill="${bg}"/><path d="M115 242V144a35 35 0 0 1 70 0V242Z" fill="${fg}" opacity=".92"/>`;
+    case "stripes": return [0,1,2,3,4].map(i => `<polygon points="${-30 + i*72},242 ${30 + i*72},242 ${130 + i*72},0 ${70 + i*72},0" fill="${i%2 ? fg : ac}"/>`).join("");
+    case "dots": { let s = ""; for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) { const rad = 6 + ((r*7 + c*3) % 4) * 4; s += `<circle cx="${34 + c*46}" cy="${40 + r*54}" r="${rad}" fill="${(r + c) % 2 ? fg : ac}" opacity="${(r + c) % 2 ? .45 : 1}"/>`; } return s; }
+    case "orbit": return `<circle cx="150" cy="125" r="46" fill="${ac}"/><g fill="none" stroke="${fg}" stroke-width="2.500" opacity=".85"><ellipse cx="150" cy="125" rx="112" ry="36" transform="rotate(-18 150 125)"/><ellipse cx="150" cy="125" rx="90" ry="26" transform="rotate(24 150 125)"/></g><circle cx="246" cy="96" r="7" fill="${fg}"/>`;
+    case "leaf": return `<circle cx="118" cy="130" r="82" fill="${ac}" opacity=".85"/><circle cx="188" cy="130" r="82" fill="${fg}" opacity=".3"/>`;
+    default: return "";
+  }
+}
+function cover(b) {
+  const [bg, fg, ac] = b.palette;
+  const lines = wrapTitle(b.title, 14);
+  const maxLen = Math.max(...lines.map(l => l.length));
+  const fs = Math.max(20, Math.min(32, Math.floor(244 / (maxLen * .58))));
+  const tspans = lines.map((l, i) => `<tspan x="30" dy="${i === 0 ? 0 : fs * 1.14}">${esc(l)}</tspan>`).join("");
+  return `<svg class="cover" viewBox="0 0 300 450" role="img" aria-label="Placeholder cover for ${esc(b.title)} by ${esc(b.author)}" xmlns="http://www.w3.org/2000/svg">
+    <rect width="300" height="450" fill="${bg}"/>
+    ${patternArt(b.pattern, bg, fg, ac)}
+    <text x="30" y="282" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="${fs}" fill="${fg}">${tspans}</text>
+    <text x="30" y="420" font-family="Instrument Sans, Arial, sans-serif" font-weight="600" font-size="13" letter-spacing="1.500" fill="${fg}" opacity=".85">${esc(b.author.toUpperCase())}</text>
+    <rect width="12" height="450" fill="#000" opacity=".16"/><rect x="12" width="2" height="450" fill="#fff" opacity=".2"/>
+  </svg>`;
+}
+
+/* ---------- Reusable parts ---------- */
+const saved = () => store.get("tgp.saved", []);
+const isSaved = id => saved().includes(id);
+const logoMark = `<svg viewBox="0 0 34 34" aria-hidden="true" width="34" height="34"><rect width="34" height="34" rx="9" fill="#0B78B8"/><path d="M17 6c3.200 4.200 6.400 7.400 6.400 11.600 0 3.600-2.200 6.800-6.400 11.400-4.200-4.600-6.400-7.800-6.400-11.400C10.600 13.400 13.800 10.200 17 6Z" fill="#fff"/><circle cx="17" cy="16.500" r="1.900" fill="#0B78B8"/><path d="M17 18.400V25" stroke="#0B78B8" stroke-width="1.600" stroke-linecap="round"/></svg>`;
+
+function bookCard(b) {
+  const on = isSaved(b.id);
+  return `<article class="book-card">
+    <a class="cover-stage" href="#/book/${b.id}" tabindex="-1" aria-hidden="true">${cover(b)}</a>
+    <div class="book-info">
+      <div class="book-top">
+        <span class="pill">${esc(b.genre)}</span>
+        <button class="save-btn" type="button" data-action="save" data-id="${b.id}" aria-pressed="${on}" aria-label="Save ${esc(b.title)}">${icon("heart", 20)}</button>
+      </div>
+      <h3><a href="#/book/${b.id}">${esc(b.title)}</a></h3>
+      <p class="by">by ${esc(b.author)}</p>
+      <p class="desc">${esc(b.short)}</p>
+      <a class="btn btn-ghost btn-sm" href="#/book/${b.id}" aria-label="View book: ${esc(b.title)}">View Book</a>
+    </div>
+  </article>`;
+}
+
+function field({ id, label, type = "text", required = false, autocomplete = "", placeholder = "", hint = "", msg = "", extra = "", name }) {
+  return `<div class="field" data-field>
+    <label for="${id}">${label}${required ? ' <span class="req" aria-hidden="true">*</span>' : ""}</label>
+    <input id="${id}" name="${name || id}" type="${type}" ${required ? "required" : ""} ${autocomplete ? `autocomplete="${autocomplete}"` : ""} ${placeholder ? `placeholder="${placeholder}"` : ""} ${msg ? `data-msg="${msg}"` : ""} ${extra} aria-describedby="${id}-err${hint ? " " + id + "-hint" : ""}">
+    ${hint ? `<span class="hint" id="${id}-hint">${hint}</span>` : ""}
+    <span class="err" id="${id}-err" aria-live="polite"></span>
+  </div>`;
+}
+
+function newsletterBlock(idp = "nl") {
+  return `<form class="inline-form row" data-form="newsletter" novalidate>
+    <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+    ${field({ id: idp + "-email", name: "email", label: "Email address", type: "email", required: true, autocomplete: "email", placeholder: "you@example.com", msg: "Enter your email address." }).replace('<label for="' + idp + '-email">Email address <span class="req" aria-hidden="true">*</span></label>', '<label class="sr" for="' + idp + '-email">Email address</label>')}
+    <button class="btn btn-primary" type="submit">Subscribe</button>
+    <div class="status" role="status" hidden style="grid-column:1/-1"></div>
+  </form>`;
+}
+
+const SOCIALS = [["facebook", "Facebook"], ["linkedin", "LinkedIn"], ["instagram", "Instagram"], ["youtube", "YouTube"]];
+const socialLinks = () => `<div class="socials">${SOCIALS.map(([k, n]) => {
+  const url = CONFIG.social[k];
+  return `<a class="social" data-social="${k}" href="${url || "#"}" ${url ? 'target="_blank" rel="noopener"' : ""} aria-label="Buklux on ${n}">${icon(k, 20)}</a>`;
+}).join("")}</div>`;
+
+/* ---------- Pages ---------- */
+function homePage() {
+  const six = listBooks().filter(b => b.home);
+  const fan = ["salt-road-home", "small-hours-big-faith", "crown-of-static"].map(getBook);
+  return { title: "", html: `
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1 class="h1">Your Story Deserves to Become a Book.</h1>
+        <p class="lede">We help writers turn ideas and manuscripts into books that readers can finish, value and recommend.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="#/authors/submit">Start Your Book Project</a>
+          <a class="btn btn-ghost" href="#/books">Explore Books</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <svg class="globe" viewBox="0 0 400 400"><circle class="fill" cx="200" cy="200" r="190"/><g class="ln"><circle cx="200" cy="200" r="190"/><ellipse cx="200" cy="200" rx="190" ry="70"/><ellipse cx="200" cy="200" rx="115" ry="190"/><ellipse cx="200" cy="200" rx="40" ry="190"/><path d="M10 200h380"/></g></svg>
+        <div class="fan-book fan-1">${cover(fan[0])}</div>
+        <div class="fan-book fan-2">${cover(fan[1])}</div>
+        <div class="fan-book fan-3">${cover(fan[2])}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-mist">
+    <div class="container intro">
+      <h2 class="h2">Built for Writers. Made for Readers.</h2>
+      <div>
+        <p class="lede">Buklux is a modern publishing company and book platform. We help authors shape their ideas into finished books. Then we help those books find the people who will love them.</p>
+        <div class="duo">
+          <a href="#/authors"><h3>For writers</h3><p>Editing, formatting and publishing support from first draft to finished book.</p><span class="link-cta">See how we help</span></a>
+          <a href="#/books"><h3>For readers</h3><p>Fresh books from voices around the world. Search by genre and save what you like.</p><span class="link-cta">Browse books</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="container">
+      <div class="head"><h2 class="h2">What We Do</h2><p class="lede">Pick one service or take the whole path. We start where your book is today.</p></div>
+      <div class="svc-grid">
+        ${SERVICES.map(s => `<article class="svc"><div class="svc-ico">${icon(s.key)}</div><h3 class="h3">${s.name}</h3><p>${s.short}</p><a class="link-cta" href="#/authors/submit" data-service="${s.name}">${s.cta}</a></article>`).join("")}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-sand">
+    <div class="container">
+      <div class="head"><h2 class="h2">Your Book Journey</h2><p class="lede">Five clear steps from first draft to your readers.</p></div>
+      <ol class="journey">
+        <li class="step"><span class="n" aria-hidden="true">1</span><h3>Submit Your Manuscript</h3><p>Tell us about your book and send what you have. A few lines is enough to start.</p></li>
+        <li class="step"><span class="n" aria-hidden="true">2</span><h3>We Assess Your Project</h3><p>We read, then tell you where your book stands and what it needs next.</p></li>
+        <li class="step"><span class="n" aria-hidden="true">3</span><h3>We Edit & Prepare Your Book</h3><p>Editing, proofreading, layout and cover. Done with care and with your voice protected.</p></li>
+        <li class="step"><span class="n" aria-hidden="true">4</span><h3>We Publish & Position It</h3><p>Your book goes live with a strong description, the right categories and a clear audience.</p></li>
+        <li class="step"><span class="n" aria-hidden="true">5</span><h3>You Reach Your Readers</h3><p>Readers find your book, finish it and tell others about it.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="container">
+      <div class="head"><h2 class="h2">Books Worth Discovering</h2><p class="lede">A few titles to start with. Open one to read more about the book and its author.</p></div>
+      <div class="grid-books">${six.map(bookCard).join("")}</div>
+      <p class="sample-note">These are sample books used to show the layout.</p>
+      <div class="more"><a class="btn btn-primary" href="#/books">See All Books</a></div>
+    </div>
+  </section>
+
+  <section class="band band-mist">
+    <div class="container why">
+      <div class="head"><h2 class="h2">Why Authors Choose Buklux</h2><p class="lede">Real help you can feel in the work. No empty promises.</p></div>
+      <ul class="why-list">
+        ${[
+          ["Professional editorial direction", "You get clear, specific feedback from a working editor. Not vague praise."],
+          ["Clear publishing guidance", "We explain your options in plain language. You decide with full information."],
+          ["Reader-focused thinking", "Every edit asks one question. Will the reader stay with this?"],
+          ["Attention to detail", "Consistent style, clean files and careful checks before anything goes live."],
+          ["Support from manuscript to finished book", "One team across assessment, editing, formatting and publishing. You always know what comes next."]
+        ].map(([t, d]) => `<li><span class="tick">${icon("check", 18, 2.2)}</span><div><h3>${t}</h3><p>${d}</p></div></li>`).join("")}
+      </ul>
+    </div>
+  </section>
+
+  <section class="band cta-band">
+    <svg class="cta-globe" viewBox="0 0 400 400" aria-hidden="true"><g class="ln"><circle cx="200" cy="200" r="190"/><ellipse cx="200" cy="200" rx="190" ry="70"/><ellipse cx="200" cy="200" rx="115" ry="190"/><ellipse cx="200" cy="200" rx="40" ry="190"/><path d="M10 200h380"/></g></svg>
+    <div class="container">
+      <h2 class="h2" style="max-width:16ch">Have a Book Inside You?</h2>
+      <p class="lede">Whether you're still working on your manuscript or you're ready to publish, let's talk about where your book is now and what it needs next.</p>
+      <div class="btn-row"><a class="btn btn-sky" href="#/authors/submit">Submit Your Project</a></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="container news">
+      <div><h2 class="h2">Get Book & Writing Insights</h2><p class="lede" style="margin-top:16px">Join our community for practical publishing advice, book recommendations, writing insights and updates from Buklux.</p></div>
+      <div>${newsletterBlock("nl-home")}<p class="fine" style="margin-top:12px">One email at a time. Unsubscribe whenever you like.</p></div>
+    </div>
+  </section>` };
+}
+
+function authorsPage() {
+  return { title: "For Authors", html: `
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="h1" style="max-width:15ch">Let's Get Your Book Ready for Readers.</h1>
+      <p class="lede">You wrote something that matters. We help you shape it, polish it and publish it so it is ready for the people who need it.</p>
+      <div class="who">
+        <div>First-time authors with a story or idea</div>
+        <div>Writers with a draft that feels stuck</div>
+        <div>Experts and coaches turning their knowledge into a book</div>
+        <div>Authors with an edited manuscript ready to publish</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="journey">
+    <div class="container">
+      <div class="head"><h2 class="h2">Where Are You in Your Book Journey?</h2><p class="lede">Choose the one that sounds like you. We will fill in the form below to match.</p></div>
+      <div class="stages" id="stages">
+        ${Object.entries(STAGES).map(([k, s]) => `<button class="stage" type="button" data-action="stage" data-stage="${k}" aria-pressed="false"><strong>${s.title}</strong><span>${s.text}</span></button>`).join("")}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-mist" id="services">
+    <div class="container">
+      <div class="head"><h2 class="h2">What We Can Do for Your Book</h2><p class="lede">Open any service to see what you get and who it suits best.</p></div>
+      <div class="acc">
+        ${SERVICES.map((s, i) => `<details ${i === 0 ? "open" : ""}><summary>${s.name}</summary><div class="body"><p>${s.short}</p><div><strong>What you get</strong><ul>${s.gets.map(g => `<li>${g}</li>`).join("")}</ul></div><p><strong>Good fit if:</strong> ${s.fit}</p><div><a class="link-cta" href="#/authors/submit" data-service="${s.name}">${s.cta}</a></div></div></details>`).join("")}
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="submit">
+    <div class="container submit-wrap">
+      <div class="head">
+        <h2 class="h2">Submit Your Project</h2>
+        <p class="lede">Tell us about your book. It takes about five minutes.</p>
+        <ol class="next">
+          <li><b>1</b><div><strong>We read your details</strong><p class="muted">We look at your stage, genre and what you need.</p></div></li>
+          <li><b>2</b><div><strong>We reply with a next step</strong><p class="muted">You get a clear answer about how we can help.</p></div></li>
+          <li><b>3</b><div><strong>You decide</strong><p class="muted">No pressure. Move forward when it feels right.</p></div></li>
+        </ol>
+      </div>
+      <div class="submit-card">
+        <!-- CONNECT LATER: set CONFIG.endpoints.author to a form service URL. See README. -->
+        <form data-form="author" id="author-form" novalidate>
+          <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="form-grid two">
+            ${field({ id: "a-name", name: "full_name", label: "Full Name", required: true, autocomplete: "name", msg: "Enter your full name." })}
+            ${field({ id: "a-email", name: "email", label: "Email", type: "email", required: true, autocomplete: "email", msg: "Enter your email address." })}
+            ${field({ id: "a-phone", name: "phone", label: "WhatsApp / Phone", type: "tel", autocomplete: "tel", hint: "Include your country code." })}
+            ${field({ id: "a-title", name: "book_title", label: "Book Title", hint: "A working title is fine." })}
+            <div class="field" data-field>
+              <label for="a-genre">Genre</label>
+              <select id="a-genre" name="genre" aria-describedby="a-genre-err"><option value="">Choose a genre</option>${GENRES.map(g => `<option>${g}</option>`).join("")}</select>
+              <span class="err" id="a-genre-err"></span>
+            </div>
+            ${field({ id: "a-words", name: "word_count", label: "Current Word Count", type: "number", extra: 'min="0" inputmode="numeric"', hint: "An estimate is fine." })}
+            <div class="field span-2" data-field>
+              <label for="a-stage">What stage is your manuscript?</label>
+              <select id="a-stage" name="stage" aria-describedby="a-stage-err"><option value="">Choose a stage</option>${["Just an idea", "Writing my draft", "Draft complete", "Edited and revised", "Ready to publish"].map(g => `<option>${g}</option>`).join("")}</select>
+              <span class="err" id="a-stage-err"></span>
+            </div>
+            <fieldset class="span-2" style="border:0;padding:0;margin:0;min-width:0">
+              <legend class="legend">What do you need help with?</legend>
+              <div class="checks">
+                ${[...SERVICES.map(s => s.name), "Not sure yet"].map(n => `<label class="check"><input type="checkbox" name="help" value="${n}"><span>${n}</span></label>`).join("")}
+              </div>
+            </fieldset>
+            <div class="field span-2" data-field>
+              <label for="a-file">Upload Manuscript</label>
+              <label class="upload" for="a-file"><strong id="a-file-name">Choose a file</strong><span class="hint">Word, PDF, text or RTF. Up to ${CONFIG.maxUploadMB} MB.</span>
+                <input id="a-file" name="manuscript" type="file" accept=".doc,.docx,.pdf,.txt,.rtf,.odt" aria-describedby="a-file-err"></label>
+              <span class="err" id="a-file-err" aria-live="polite"></span>
+            </div>
+            <div class="field span-2" data-field>
+              <label for="a-msg">Additional Message</label>
+              <textarea id="a-msg" name="message" aria-describedby="a-msg-err" placeholder="Anything else we should know about your book or your goals?"></textarea>
+              <span class="err" id="a-msg-err"></span>
+            </div>
+          </div>
+          <div class="form-actions" style="margin-top:24px">
+            <div class="status" role="status" hidden></div>
+            <button class="btn btn-primary" type="submit" style="min-height:56px;font-size:1.05rem">Submit Your Project</button>
+            <p class="fine">We only use your details to reply about your project.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>` };
+}
+
+/* Books page state */
+const state = { q: "", genre: "All", sort: "new", savedOnly: false };
+function filterBooks() {
+  const q = state.q.trim().toLowerCase();
+  const list = listBooks().filter(b =>
+    (state.genre === "All" || b.genre === state.genre) &&
+    (!state.savedOnly || isSaved(b.id)) &&
+    (!q || [b.title, b.author, b.genre, b.short].join(" ").toLowerCase().includes(q)));
+  list.sort(state.sort === "az" ? (a, b) => a.title.localeCompare(b.title) : (a, b) => b.date.localeCompare(a.date));
+  return list;
+}
+function booksPage() {
+  const genres = ["All", ...new Set(listBooks().map(b => b.genre))];
+  return { title: "Books", html: `
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="h1" style="max-width:14ch">Find Your Next Good Book.</h1>
+      <p class="lede">Search by title, author or topic. Filter by genre. Save the ones you want to come back to.</p>
+    </div>
+  </section>
+  <section class="band" style="padding-top:clamp(32px,5vw,56px)">
+    <div class="container">
+      <div class="controls">
+        <div class="search">${icon("search", 20)}<label class="sr" for="q">Search books</label><input id="q" type="search" placeholder="Search books" autocomplete="off" value="${esc(state.q)}"></div>
+        <div class="chips" role="group" aria-label="Filter by genre">${genres.map(g => `<button class="chip" type="button" data-action="genre" data-genre="${esc(g)}" aria-pressed="${state.genre === g}">${esc(g)}</button>`).join("")}</div>
+        <div class="ctrl-row">
+          <div class="left">
+            <label class="sr" for="sort">Sort books</label>
+            <select id="sort"><option value="new" ${state.sort === "new" ? "selected" : ""}>Newest first</option><option value="az" ${state.sort === "az" ? "selected" : ""}>Title A to Z</option></select>
+            <button class="chip" type="button" data-action="saved-toggle" id="savedBtn" aria-pressed="${state.savedOnly}">Saved books</button>
+          </div>
+          <p class="count" id="count" aria-live="polite"></p>
+        </div>
+      </div>
+      <div id="results" style="margin-top:36px"></div>
+      <p class="sample-note">These are sample books used to show the layout and filters.</p>
+    </div>
+  </section>
+  <section class="band band-mist">
+    <div class="container news">
+      <div><h2 class="h2">Never miss a good book</h2><p class="lede" style="margin-top:16px">Get new releases and reading recommendations in your inbox.</p></div>
+      <div>${newsletterBlock("nl-books")}</div>
+    </div>
+  </section>` };
+}
+function renderResults() {
+  const el = $("#results"); if (!el) return;
+  const active = state.q.trim() || state.genre !== "All" || state.savedOnly;
+  const list = filterBooks();
+  $("#count").textContent = `${list.length} ${list.length === 1 ? "book" : "books"}`;
+  if (!list.length) {
+    el.innerHTML = `<div class="empty"><h2 class="h3">No books match that search</h2><p>${state.savedOnly && !state.q && state.genre === "All" ? "You have not saved any books yet. Tap the heart on a book to save it." : "Try a different word or choose another genre."}</p><button class="btn btn-ghost btn-sm" type="button" data-action="clear-filters">Clear filters</button></div>`;
+    return;
+  }
+  if (active) { el.innerHTML = `<div class="grid-books">${list.map(bookCard).join("")}</div>`; return; }
+  const featured = listBooks().filter(b => b.featured);
+  const latest = [...listBooks()].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4);
+  el.innerHTML = `
+    <div class="shelf"><div class="shelf-panel"><div class="shelf-head"><h2 class="h2">Featured</h2></div><div class="grid-books">${featured.map(bookCard).join("")}</div></div></div>
+    <div class="shelf"><div class="shelf-head"><h2 class="h2">Latest</h2></div><div class="grid-books">${latest.map(bookCard).join("")}</div></div>
+    <div class="shelf"><div class="shelf-head"><h2 class="h2">All books</h2></div><div class="grid-books">${list.map(bookCard).join("")}</div></div>`;
+}
+
+function bookPage(id) {
+  const b = getBook(id); if (!b) return notFound();
+  const related = listBooks().filter(x => x.id !== b.id && x.genre === b.genre).concat(listBooks().filter(x => x.id !== b.id && x.genre !== b.genre)).slice(0, 3);
+  return { title: b.title, html: `
+  <section class="band" style="padding-top:clamp(32px,5vw,56px)">
+    <div class="container">
+      <a class="back" href="#/books">&larr; Back to all books</a>
+      <div class="detail">
+        <div class="detail-stage">${cover(b)}</div>
+        <div>
+          <span class="pill">${esc(b.genre)}</span>
+          <h1 class="h1" style="font-size:clamp(2.2rem,5.4vw,3.6rem)">${esc(b.title)}</h1>
+          <p class="by">by ${esc(b.author)}</p>
+          <p class="lede" style="color:var(--ink)">${esc(b.short)}</p>
+          <p style="margin-top:16px;color:var(--ink-2)">${esc(b.long)}</p>
+          <dl class="meta">
+            <div><dt>Genre</dt><dd>${esc(b.genre)}</dd></div>
+            <div><dt>Pages</dt><dd>${b.pages}</dd></div>
+            <div><dt>Publication date</dt><dd>${fmtDate(b.date)}</dd></div>
+            <div><dt>Format</dt><dd>${esc(b.format)}</dd></div>
+          </dl>
+          <div class="btn-row" style="margin-top:0">
+            <button class="btn btn-primary" type="button" data-action="buy" data-id="${b.id}">Buy / Read</button>
+            <button class="btn btn-ghost" type="button" data-action="save" data-id="${b.id}" aria-pressed="${isSaved(b.id)}" id="save-detail">${isSaved(b.id) ? "Saved" : "Save for later"}</button>
+          </div>
+          <p class="sample-note">This is a sample book page. Real pages will use the same layout.</p>
+        </div>
+      </div>
+      <div class="about-author"><h2 class="h2" style="font-size:1.8rem">About the author</h2><p class="muted" style="font-size:1.1rem"><strong style="color:var(--ink)">${esc(b.author)}.</strong> ${esc(b.bio)}</p></div>
+    </div>
+  </section>
+  <section class="band band-mist">
+    <div class="container">
+      <div class="head"><h2 class="h2">More to read</h2></div>
+      <div class="grid-books">${related.map(bookCard).join("")}</div>
+    </div>
+  </section>` };
+}
+
+function aboutPage() {
+  /* EDIT THIS PAGE: all the copy below is a draft in your voice. Change it freely. */
+  return { title: "About", html: `
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="h1" style="max-width:16ch">Publishing Ideas That Deserve to Travel.</h1>
+      <p class="lede">Buklux exists for writers who have something to say and readers who are looking for it.</p>
+    </div>
+  </section>
+  <section class="band">
+    <div class="container story">
+      <p>Too many good books never leave the draft. Not because the writer lacked talent. Because no one showed them the next step.</p>
+      <div class="stack">
+        <p>Buklux was started to close that gap. We begin where writers often get stuck. We read closely. We say what is working and what is not. Then we help you fix it, polish it and put it in front of readers.</p>
+        <p>We are led by Deborah Peter, a book editor and publishing consultant. Our approach is simple. Protect the author's voice. Respect the reader's time. Explain every step in plain language.</p>
+        <p>Today we work with authors on editing and publishing. Next, we are building a place where readers can discover and enjoy their books too.</p>
+      </div>
+    </div>
+  </section>
+  <section class="band band-mist">
+    <div class="container mv">
+      <div><h2>Our mission</h2><p class="lede">To help writers turn ideas and manuscripts into books that readers can finish, value and recommend.</p></div>
+      <div><h2>Our vision</h2><p class="lede">A world where good stories and useful ideas travel across borders, languages and screens, and find the people who need them.</p></div>
+    </div>
+  </section>
+  <section class="band">
+    <div class="container">
+      <div class="head"><h2 class="h2">What we believe</h2></div>
+      <ul class="beliefs">
+        <li>Every writer has something worth saying.</li>
+        <li>Editing should protect your voice, not replace it.</li>
+        <li>A book is finished when a reader can finish it.</li>
+        <li>Honest feedback is a form of respect.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="band band-sand">
+    <div class="container story">
+      <h2 class="h2">Why we exist</h2>
+      <div class="stack">
+        <p>We exist because writing a book is hard, and publishing one can feel like a maze. Writers should not have to guess.</p>
+        <p>We also exist for readers. A great book can change a week, a habit or a life. Making those books easier to find matters.</p>
+        <div class="btn-row"><a class="btn btn-primary" href="#/authors/submit">Start Your Book Project</a><a class="btn btn-ghost" href="#/contact">Say hello</a></div>
+      </div>
+    </div>
+  </section>` };
+}
+
+function contactPage() {
+  const wa = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent("Hello, I would like to talk about my book project.")}`;
+  const mail = `mailto:${CONFIG.email}?subject=${encodeURIComponent("Hello from my website visit")}`;
+  return { title: "Contact", html: `
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="h1" style="max-width:12ch">Let's Talk About Your Book.</h1>
+      <p class="lede">Send a message, or reach us the way you prefer. We read everything and reply as soon as we can.</p>
+    </div>
+  </section>
+  <section class="band" style="padding-top:clamp(24px,4vw,48px)">
+    <div class="container contact-grid">
+      <div class="stack">
+        <div class="ways">
+          <a class="way" href="${wa}" target="_blank" rel="noopener"><span class="ico">${icon("chat")}</span><span><strong>Message us on WhatsApp</strong><span class="s">Quick questions and first conversations</span></span></a>
+          <a class="way" href="${mail}"><span class="ico">${icon("mail")}</span><span><strong>Send us an email</strong><span class="s">${esc(CONFIG.email)}</span></span></a>
+        </div>
+        <div><h2 class="h3" style="margin-bottom:12px">Follow Buklux</h2>${socialLinks()}</div>
+      </div>
+      <div class="submit-card">
+        <!-- CONNECT LATER: set CONFIG.endpoints.contact to a form service URL. See README. -->
+        <form data-form="contact" novalidate>
+          <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="form-grid two">
+            ${field({ id: "c-name", name: "name", label: "Name", required: true, autocomplete: "name", msg: "Enter your name." })}
+            ${field({ id: "c-email", name: "email", label: "Email", type: "email", required: true, autocomplete: "email", msg: "Enter your email address." })}
+            ${field({ id: "c-phone", name: "phone", label: "Phone / WhatsApp", type: "tel", autocomplete: "tel" })}
+            ${field({ id: "c-subject", name: "subject", label: "Subject", required: true, msg: "Add a short subject." })}
+            <div class="field span-2" data-field>
+              <label for="c-msg">Message <span class="req" aria-hidden="true">*</span></label>
+              <textarea id="c-msg" name="message" required data-msg="Write a short message." aria-describedby="c-msg-err"></textarea>
+              <span class="err" id="c-msg-err" aria-live="polite"></span>
+            </div>
+          </div>
+          <div class="form-actions" style="margin-top:24px">
+            <div class="status" role="status" hidden></div>
+            <button class="btn btn-primary" type="submit">Send Message</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>` };
+}
+
+function legalPage(kind) {
+  const privacy = kind === "privacy";
+  return { title: privacy ? "Privacy Policy" : "Terms", html: `
+  <section class="band"><div class="container legal">
+    <div class="banner">Starter text only. Replace it with a policy that fits your business and your country before you publish.</div>
+    <h1 class="h1" style="font-size:clamp(2.2rem,5vw,3.4rem)">${privacy ? "Privacy Policy" : "Terms of Use"}</h1>
+    ${privacy ? `
+    <h2>What we collect</h2><p>When you use our forms we collect the details you type in, such as your name, email, phone number and book information. If you upload a manuscript, we receive that file.</p>
+    <h2>How we use it</h2><p>We use your details to reply to you, assess your project and send updates you asked for. We do not sell your personal information.</p>
+    <h2>Your choices</h2><ul><li>Ask us what we hold about you.</li><li>Ask us to correct or delete it.</li><li>Unsubscribe from emails at any time.</li></ul>
+    <h2>Contact</h2><p>Questions about privacy? Email ${esc(CONFIG.email)}.</p>` : `
+    <h2>Using this website</h2><p>You may use this website for lawful purposes. Please do not misuse the forms or try to disrupt the site.</p>
+    <h2>Your manuscripts</h2><p>You keep the rights to your work. Sending us a manuscript does not transfer ownership. We will agree the terms of any editing or publishing service with you in writing.</p>
+    <h2>Content on this site</h2><p>Text, design and artwork on this site belong to Buklux or its contributors. Sample books shown here are placeholders.</p>
+    <h2>Changes</h2><p>We may update these terms from time to time. The latest version is always on this page.</p>`}
+  </div></section>` };
+}
+function notFound() {
+  return { title: "Page not found", html: `<section class="band"><div class="container" style="text-align:center"><h1 class="h1">That page is not here.</h1><p class="lede" style="margin:18px auto 0">The link may be old or mistyped.</p><div class="btn-row" style="justify-content:center"><a class="btn btn-primary" href="#/">Go home</a><a class="btn btn-ghost" href="#/books">Explore Books</a></div></div></section>` };
+}
+
+/* Reserved for the future platform. These show a friendly holding page for now. */
+function comingSoon(name) {
+  return { title: name, html: `<section class="band"><div class="container" style="max-width:640px"><h1 class="h1" style="font-size:clamp(2.2rem,5vw,3.4rem)">${name} is coming soon.</h1><p class="lede" style="margin-top:16px">Accounts, libraries and author dashboards are on the way. Join the list and we will tell you first.</p><div style="margin-top:28px">${newsletterBlock("nl-soon")}</div></div></section>` };
+}
+
+/* ---------- Footer ---------- */
+function renderFooter() {
+  $("#footer").innerHTML = `<div class="container">
+    <div class="foot">
+      <div><a class="brand" href="#/">${logoMark}<span>Buklux</span></a><p>Helping authors turn ideas into books, and helping readers find them.</p></div>
+      <div class="foot-links">
+        <div><h4>Explore</h4><ul><li><a href="#/about">About</a></li><li><a href="#/authors/services">Services</a></li><li><a href="#/books">Books</a></li><li><a href="#/authors">For Authors</a></li><li><a href="#/contact">Contact</a></li></ul></div>
+        <div><h4>Legal</h4><ul><li><a href="#/privacy">Privacy Policy</a></li><li><a href="#/terms">Terms</a></li></ul></div>
+        <div><h4>Follow</h4>${socialLinks()}</div>
+      </div>
+    </div>
+    <p class="legal-line" style="max-width:none">&copy; ${new Date().getFullYear()} Buklux. All rights reserved.</p>
+  </div>`;
+}
+
+/* ---------- Router ---------- */
+const PAGES = {
+  "": homePage, home: homePage, authors: authorsPage, books: booksPage, book: bookPage,
+  about: aboutPage, contact: contactPage, privacy: () => legalPage("privacy"), terms: () => legalPage("terms"),
+  account: accountPage, library: libraryPage, dashboard: authorDashboardPage, admin: adminPage
+};
+const pending = { service: null };
+
+async function route() {
+  const parts = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
+  const name = parts[0] || "home", arg = parts[1];
+  const fn = PAGES[name] || notFound;
+  let page = await fn(arg);
+  if (name === "books") { const live = await liveBooksPage(); if (live) page = live; }
+  $("#main").innerHTML = page.html;
+  document.title = page.title ? `${page.title} | Buklux` : "Buklux | Read with purpose. Publish with confidence.";
+  $$("[data-nav]").forEach(a => a.removeAttribute("aria-current"));
+  const navKey = name === "book" ? "books" : name;
+  const cur = $(`[data-nav="${navKey}"]`); if (cur) cur.setAttribute("aria-current", "page");
+  closeMenu();
+  if (name === "books") renderResults();
+  if (name === "authors") applyPending();
+  const target = name === "authors" && arg ? document.getElementById(arg) : null;
+  if (target) { target.scrollIntoView({ behavior: reduceMotion() ? "auto" : "smooth", block: "start" }); }
+  else { window.scrollTo(0, 0); $("#main").focus({ preventScroll: true }); }
+}
+function applyPending() {
+  if (!pending.service) return;
+  const cb = $$('input[name="help"]').find(i => i.value === pending.service);
+  if (cb) cb.checked = true;
+  pending.service = null;
+}
+
+/* ---------- Menu ---------- */
+const menuBtn = $("#menuBtn"), nav = $("#nav");
+function closeMenu() { nav.classList.remove("open"); menuBtn.setAttribute("aria-expanded", "false"); menuBtn.setAttribute("aria-label", "Open menu"); }
+menuBtn.addEventListener("click", () => {
+  const open = nav.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded", open); menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+addEventListener("scroll", () => $("#header").classList.toggle("scrolled", scrollY > 8), { passive: true });
+
+/* ---------- Toast + modal ---------- */
+let toastTimer;
+function toast(msg) { const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 3200); }
+const modal = $("#modal");
+function openModal(html) { $("#modal-body").innerHTML = html; if (modal.showModal) modal.showModal(); else modal.setAttribute("open", ""); }
+function closeModal() { if (modal.close) modal.close(); else modal.removeAttribute("open"); }
+modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+
+/* ---------- Buklux authentication and marketplace ---------- */
+function connectionNotice() {
+  return !supabaseReady ? `<div class="market-status error">Supabase connection is not configured yet. Add your Supabase anon/publishable key in the marked setting near the top of this file before deploying.</div>` : "";
+}
+function openSignIn() {
+  openModal(`<h2 class="h3" id="modal-title">Welcome to Buklux</h2>
+    <p>Sign in or create an account to read, save books, or submit your own book for review.</p>
+    ${connectionNotice()}
+    <form class="market-form" id="auth-form">
+      <label>Email address<input type="email" name="email" autocomplete="email" required></label>
+      <label>Password<input type="password" name="password" autocomplete="current-password" minlength="8" required></label>
+      <label>What brings you to Buklux?
+        <select name="role"><option value="reader">I’m here to read</option><option value="author">I’m here to publish</option><option value="both">Both</option></select>
+      </label>
+      <div class="market-actions"><button class="btn btn-primary" type="submit" data-auth-mode="signin">Sign in</button><button class="btn btn-ghost" type="submit" data-auth-mode="signup">Create account</button></div>
+      <p class="market-small">New accounts may need to confirm their email before signing in.</p><div id="auth-status" class="market-status" hidden></div>
+    </form>`);
+}
+function statusMarkup(message, type="info") { return `<div class="market-status ${type}">${esc(message)}</div>`; }
+function money(minor, currency="NGN") { return new Intl.NumberFormat("en-NG", {style:"currency",currency,maximumFractionDigits:2}).format((Number(minor)||0)/100); }
+function marketplaceShell(title, intro, body="") { return {title,html:`<section class="band"><div class="market-panel"><h1 class="h1">${esc(title)}</h1><p class="muted">${esc(intro)}</p>${connectionNotice()}${body}</div></section>`}; }
+async function accountPage() {
+  if (!sb) return marketplaceShell("Your Buklux account","Sign in to manage your reader or author account.",`<div class="market-card"><button class="btn btn-primary" data-action="signin">Sign in / Create account</button></div>`);
+  const {data:{user}} = await sb.auth.getUser(); currentUser = user || null;
+  if (!user) return marketplaceShell("Your Buklux account","Sign in or create an account to continue.",`<div class="market-card"><button class="btn btn-primary" data-action="signin">Sign in / Create account</button></div>`);
+  const {data:profile} = await sb.from("global_pen_author_profiles").select("display_name,bio").eq("user_id",user.id).maybeSingle();
+  return marketplaceShell("Your account","Your Buklux account is connected.",`<div class="market-card"><p><strong>${esc(user.email||"")}</strong></p><p class="muted">Account type: ${esc(currentRole||"reader")}</p><form id="profile-form" class="market-form"><label>Display name<input name="display_name" value="${esc(profile?.display_name||"")}" maxlength="120"></label><label>Short bio<textarea name="bio" maxlength="1200">${esc(profile?.bio||"")}</textarea></label><button class="btn btn-primary" type="submit">Save profile</button><div id="profile-status" class="market-status" hidden></div></form><div class="market-actions"><a class="btn btn-ghost" href="#/library">My library</a><a class="btn btn-ghost" href="#/dashboard">Author dashboard</a><button class="btn btn-ghost" data-action="signout">Sign out</button></div></div>`);
+}
+async function libraryPage() {
+  if (!sb) return marketplaceShell("My library","Your purchased books will appear here once the connection is configured.");
+  const {data:{user}} = await sb.auth.getUser(); if (!user) return marketplaceShell("My library","Sign in to see your purchased books.",`<div class="market-card"><button class="btn btn-primary" data-action="signin">Sign in</button></div>`);
+  const {data:rows,error} = await sb.from("global_pen_purchases").select("id,book_id,amount_minor,currency,payment_status,global_pen_books(title,author_name,description,epub_path,pdf_path)").eq("reader_id",user.id).eq("payment_status","paid").order("created_at",{ascending:false});
+  if(error) return marketplaceShell("My library","We could not load your library.",statusMarkup(error.message,"error"));
+  const content = (rows||[]).length ? `<div class="market-grid">${rows.map(r=>`<article class="market-book"><h3>${esc(r.global_pen_books?.title||"Book")}</h3><p class="muted">${esc(r.global_pen_books?.author_name||"")}</p><p>Purchased for ${money(r.amount_minor,r.currency)}</p><span class="market-small">Your purchase is recorded. Secure in-platform reading access is the next integration step.</span></article>`).join("")}</div>` : `<div class="market-card"><p>Your library is empty for now. Explore the catalogue and discover your next read.</p><a class="btn btn-primary" href="#/books">Explore books</a></div>`;
+  return marketplaceShell("My library","Your confirmed purchases, in one place.",content);
+}
+async function authorDashboardPage() {
+  if (!sb) return marketplaceShell("Author dashboard","Submit a book for Buklux admin review and manage your submissions.",`<div class="market-card"><button class="btn btn-primary" data-action="signin">Sign in / Create account</button></div>`);
+  const {data:{user}} = await sb.auth.getUser(); if (!user) return marketplaceShell("Author dashboard","Sign in to submit and manage your books.",`<div class="market-card"><button class="btn btn-primary" data-action="signin">Sign in</button></div>`);
+  const {data:books,error} = await sb.from("global_pen_books").select("id,title,author_name,price_minor,status,admin_note,created_at").eq("author_id",user.id).order("created_at",{ascending:false});
+  const list = error ? statusMarkup(error.message,"error") : ((books||[]).length ? `<div class="market-grid">${books.map(b=>`<article class="market-book"><h3>${esc(b.title)}</h3><p class="price">${money(b.price_minor)}</p><p>Status: <strong>${esc(b.status)}</strong></p>${b.admin_note?`<p class="market-small">Admin note: ${esc(b.admin_note)}</p>`:""}</article>`).join("")}</div>` : `<p class="muted">You have not submitted any books yet.</p>`);
+  return marketplaceShell("Author dashboard","Submit EPUB/PDF files. Every book stays pending until the Buklux admin approves it.",`<div class="market-card"><h2 class="h2">Submit a book</h2><form id="book-submit-form" class="market-form"><label>Book title<input name="title" required maxlength="200"></label><label>Subtitle (optional)<input name="subtitle" maxlength="200"></label><label>Author name<input name="author_name" required maxlength="160"></label><label>Category<input name="category" required value="General" maxlength="100"></label><label>Book description<textarea name="description" required maxlength="5000"></textarea></label><label>Price in naira<input name="price_naira" type="number" min="0" step="1" required></label><label>Cover image (optional)<input name="cover" type="file" accept="image/png,image/jpeg,image/webp"></label><label>EPUB file<input name="epub" type="file" accept=".epub,application/epub+zip"></label><label>PDF file<input name="pdf" type="file" accept=".pdf,application/pdf"></label><p class="market-small">Upload at least one book file. Uploads go to private storage. Do not upload a book unless you own the rights or have permission.</p><button class="btn btn-primary" type="submit">Submit for approval</button><div id="book-submit-status" class="market-status" hidden></div></form></div><div class="market-card"><h2 class="h2">My submissions</h2>${list}</div>`);
+}
+async function adminPage() {
+  if (!sb) return marketplaceShell("Buklux admin","Admin tools are available only after Supabase is configured.");
+  const {data:{user}} = await sb.auth.getUser();
+  if (!user) return marketplaceShell("Buklux admin","Sign in with the authorized admin account to manage the marketplace.",`<div class="market-card"><button class="btn btn-primary" data-action="signin">Sign in</button></div>`);
+  if ((user.email||"").toLowerCase() !== "globalbookhouse5@gmail.com") return marketplaceShell("Buklux admin","This account is not authorized to access the admin dashboard.");
+  const [{data:books,error:be},{data:requests,error:re}] = await Promise.all([sb.from("global_pen_books").select("id,title,author_name,price_minor,status,admin_note,created_at,author_id").order("created_at",{ascending:false}).limit(100),sb.from("global_pen_requests").select("id,request_type,name,email,status,details,created_at").order("created_at",{ascending:false}).limit(100)]);
+  const bookRows = (books||[]).map(b=>`<article class="market-book"><h3>${esc(b.title)}</h3><p>${esc(b.author_name)} · ${money(b.price_minor)}</p><p>Status: <strong>${esc(b.status)}</strong></p>${b.admin_note?`<p class="market-small">${esc(b.admin_note)}</p>`:""}<label>Admin note<input data-admin-note="${b.id}" value="${esc(b.admin_note||"")}"></label><div class="market-actions">${b.status!=="approved"?`<button class="btn btn-primary btn-sm" data-admin-book="${b.id}" data-status="approved">Approve</button>`:""}${b.status!=="rejected"?`<button class="btn btn-ghost btn-sm" data-admin-book="${b.id}" data-status="rejected">Reject</button>`:""}</div></article>`).join("");
+  const requestRows=(requests||[]).map(r=>`<article class="market-book"><h3>${esc(r.request_type)} request</h3><p>${esc(r.name)} · ${esc(r.email)}</p><p class="market-small">${esc(JSON.stringify(r.details||{}))}</p><p>Status: ${esc(r.status)}</p><select data-request-status="${r.id}"><option ${r.status==="new"?"selected":""}>new</option><option ${r.status==="in_review"?"selected":""}>in_review</option><option ${r.status==="contacted"?"selected":""}>contacted</option><option ${r.status==="accepted"?"selected":""}>accepted</option><option ${r.status==="completed"?"selected":""}>completed</option><option ${r.status==="declined"?"selected":""}>declined</option></select><button class="btn btn-ghost btn-sm" data-request-save="${r.id}">Update request</button></article>`).join("");
+  return marketplaceShell("Buklux admin dashboard","Review books and manage incoming service/contact requests.",`${be?statusMarkup(be.message,"error"):""}${re?statusMarkup(re.message,"error"):""}<div class="market-card"><h2 class="h2">Book submissions</h2><div class="market-grid">${bookRows||"<p>No book submissions yet.</p>"}</div></div><div class="market-card"><h2 class="h2">Incoming requests</h2><div class="market-grid">${requestRows||"<p>No requests found.</p>"}</div></div><p class="market-small">Admin access is also enforced by Supabase row-level security policies; this email check is only the interface gate.</p>`);
+}
+async function liveBooksPage() {
+  if (!sb) return null;
+  const {data,error}=await sb.from("global_pen_books").select("id,title,author_name,description,category,price_minor,currency,cover_path").eq("status","approved").order("created_at",{ascending:false});
+  if(error) return marketplaceShell("Explore books","Browse books approved by Buklux.",statusMarkup(error.message,"error"));
+  const body=(data||[]).length?`<div class="market-grid">${data.map(b=>`<article class="market-book">${b.cover_path?`<p class="market-small">Cover image available</p>`:""}<h3>${esc(b.title)}</h3><p class="muted">by ${esc(b.author_name)}</p><p>${esc(b.description||"")}</p><p class="price">${money(b.price_minor,b.currency)}</p><button class="btn btn-primary" data-live-buy="${b.id}">Buy book</button></article>`).join("")}</div>`:`<div class="market-card"><p>No books have been approved yet. Check back soon, or sign up as an author to submit your book.</p><button class="btn btn-primary" data-action="signin">Join Buklux</button></div>`;
+  return marketplaceShell("Explore books","Discover books approved for the Buklux marketplace.",body);
+}
+async function openCheckout(id) {
+  if (!sb) { openModal(`<h2 class="h3" id="modal-title">Payments are not connected yet</h2>${connectionNotice()}<p>Complete the Supabase setup before purchasing books.</p>`); return; }
+  const {data:{user}}=await sb.auth.getUser();
+  if(!user){openSignIn();return;}
+  openModal(`<h2 class="h3" id="modal-title">Starting secure checkout…</h2><p>You will be redirected to Paystack. Buklux will only add the book to your library after the payment is verified by the server.</p>`);
+  try {
+    const {data:{session}}=await sb.auth.getSession();
+    const response=await fetch('/.netlify/functions/paystack-initialize',{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${session.access_token}`},body:JSON.stringify({bookId:id})});
+    const result=await response.json();
+    if(!response.ok||!result.authorization_url) throw new Error(result.error||'Could not start checkout.');
+    location.href=result.authorization_url;
+  } catch(err) { openModal(`<h2 class="h3" id="modal-title">Checkout could not start</h2><p>${esc(err.message||"Please try again later.")}</p><button class="btn btn-primary" data-action="close-modal">Close</button>`); }
+}
+async function handleAuthSubmit(form, mode) {
+  const status=$("#auth-status",form); status.hidden=false; status.className="market-status"; status.textContent="Working…";
+  if(!sb){status.className="market-status error";status.textContent="Add the Supabase anon/publishable key to connect accounts.";return;}
+  const fd=new FormData(form), email=String(fd.get("email")||"").trim(), password=String(fd.get("password")||""), role=String(fd.get("role")||"reader"); currentRole=role;
+  const result=mode==="signup"?await sb.auth.signUp({email,password,options:{data:{buklux_role:role}}}):await sb.auth.signInWithPassword({email,password});
+  if(result.error){status.className="market-status error";status.textContent=result.error.message;return;}
+  if(mode==="signup"&&!result.data.session){status.className="market-status ok";status.textContent="Account created. Check your email to confirm your address, then sign in.";return;}
+  currentUser=result.data.user||null;status.className="market-status ok";status.textContent="Signed in successfully.";setTimeout(()=>{closeModal();location.hash="#/account";route();},400);
+}
+async function submitBook(form) {
+  const out=$("#book-submit-status",form);out.hidden=false;out.className="market-status";out.textContent="Submitting…";
+  if(!sb){out.className="market-status error";out.textContent="Supabase is not configured.";return;}
+  const {data:{user}}=await sb.auth.getUser();if(!user){out.className="market-status error";out.textContent="Please sign in first.";return;}
+  const fd=new FormData(form), epub=fd.get("epub"), pdf=fd.get("pdf"), coverFile=fd.get("cover");
+  if((!epub||!epub.size)&&(!pdf||!pdf.size)){out.className="market-status error";out.textContent="Please upload an EPUB or PDF file.";return;}
+  if((epub?.size||0)>50*1024*1024||(pdf?.size||0)>50*1024*1024||(coverFile?.size||0)>8*1024*1024){out.className="market-status error";out.textContent="Book files must be under 50 MB and the cover under 8 MB.";return;}
+  const safeName=n=>String(n).replace(/[^a-zA-Z0-9._-]/g,"_");
+  const upload=async(file,kind)=>{if(!file||!file.size)return null;const path=`${user.id}/${crypto.randomUUID()}-${safeName(file.name)}`;const {error}=await sb.storage.from("global-pen-books").upload(path,file,{upsert:false,contentType:file.type||"application/octet-stream"});if(error)throw error;return path;};
+  try{
+    const [epubPath,pdfPath,coverPath]=await Promise.all([upload(epub,"epub"),upload(pdf,"pdf"),upload(coverFile,"cover")]);
+    const payload={author_id:user.id,title:String(fd.get("title")).trim(),subtitle:String(fd.get("subtitle")||"").trim(),description:String(fd.get("description")).trim(),author_name:String(fd.get("author_name")).trim(),category:String(fd.get("category")||"General").trim(),price_minor:Math.round(Number(fd.get("price_naira")||0)*100),currency:"NGN",epub_path:epubPath,pdf_path:pdfPath,cover_path:coverPath,status:"pending"};
+    const {error}=await sb.from("global_pen_books").insert(payload);if(error)throw error;
+    out.className="market-status ok";out.textContent="Book submitted. It will appear in the catalogue only after admin approval.";form.reset();
+  }catch(err){out.className="market-status error";out.textContent=`Could not submit the book: ${err.message||"Please try again."}`;}
+}
+async function handleAdminBook(button){if(!sb)return;const id=button.dataset.adminBook,status=button.dataset.status,note=$(`[data-admin-note="${id}"]`)?.value||"";button.disabled=true;const {error}=await sb.from("global_pen_books").update({status,admin_note:note}).eq("id",id);if(error)toast(`Update failed: ${error.message}`);else{toast(`Book ${status}.`);route();}}
+async function handleRequestUpdate(button){if(!sb)return;const id=button.dataset.requestSave,status=$(`[data-request-status="${id}"]`)?.value;const {error}=await sb.from("global_pen_requests").update({status}).eq("id",id);if(error)toast(`Update failed: ${error.message}`);else toast("Request updated.");}
+
+/* ---------- Saved books ---------- */
+function toggleSave(id) {
+  const list = saved(); const i = list.indexOf(id);
+  if (i > -1) list.splice(i, 1); else list.push(id);
+  store.set("tgp.saved", list);
+  const on = i === -1;
+  $$(`[data-action="save"][data-id="${id}"]`).forEach(btn => {
+    btn.setAttribute("aria-pressed", on);
+    if (btn.id === "save-detail") btn.textContent = on ? "Saved" : "Save for later";
+  });
+  toast(on ? "Saved. Find it under Saved books." : "Removed from saved books.");
+  if ($("#results") && state.savedOnly) renderResults();
+}
+
+/* ---------- Click handling ---------- */
+document.addEventListener("click", e => {
+  const skip = e.target.closest('a.skip');
+  if (skip) { e.preventDefault(); $("#main").focus(); return; }
+  const link = e.target.closest('a[href^="#/"]');
+  if (link) {
+    if (link.dataset.service) pending.service = link.dataset.service;
+    if (link.getAttribute("href") === location.hash || (link.getAttribute("href") === "#/" && !location.hash)) { e.preventDefault(); route(); return; }
+  }
+  const soc = e.target.closest("a[data-social]");
+  if (soc && soc.getAttribute("href") === "#") { e.preventDefault(); toast("Add your profile link in CONFIG to turn this on."); return; }
+  const el = e.target.closest("[data-action],[data-live-buy],[data-admin-book],[data-request-save]"); if (!el) return;
+  const a = el.dataset.action;
+  if (a === "save") toggleSave(el.dataset.id);
+  else if (a === "buy") openCheckout(el.dataset.id);
+  else if (a === "signin") { closeMenu(); openSignIn(); }
+  else if (a === "signout") { if(sb) sb.auth.signOut().then(()=>{currentUser=null;toast("Signed out.");location.hash="#/";route();}); }
+  else if (a === "close-modal") closeModal();
+  else if (a === "genre") { state.genre = el.dataset.genre; $$('[data-action="genre"]').forEach(c => c.setAttribute("aria-pressed", c === el)); renderResults(); }
+  else if (a === "saved-toggle") { state.savedOnly = !state.savedOnly; el.setAttribute("aria-pressed", state.savedOnly); renderResults(); }
+  else if (a === "clear-filters") { state.q = ""; state.genre = "All"; state.savedOnly = false; route(); }
+  else if (a === "stage") {
+    const s = STAGES[el.dataset.stage];
+    $$('[data-action="stage"]').forEach(c => c.setAttribute("aria-pressed", c === el));
+    $("#a-stage").value = s.select;
+    $$('input[name="help"]').forEach(i => i.checked = s.help.includes(i.value));
+    $("#submit").scrollIntoView({ behavior: reduceMotion() ? "auto" : "smooth", block: "start" });
+  } else if (el.hasAttribute("data-live-buy")) { openCheckout(el.dataset.liveBuy); }
+  else if (el.hasAttribute("data-admin-book")) { handleAdminBook(el); }
+  else if (el.hasAttribute("data-request-save")) { handleRequestUpdate(el); }
+});
+document.addEventListener("input", e => {
+  if (e.target.id === "q") { state.q = e.target.value; renderResults(); }
+});
+document.addEventListener("change", e => {
+  if (e.target.id === "sort") { state.sort = e.target.value; renderResults(); }
+  if (e.target.id === "a-file") checkFile(e.target);
+});
+
+/* ---------- Forms ---------- */
+function checkFile(input) {
+  const f = input.files[0], err = $("#a-file-err"), name = $("#a-file-name"), wrap = input.closest("[data-field]");
+  let msg = "";
+  if (f) {
+    if (f.size > CONFIG.maxUploadMB * 1024 * 1024) msg = `That file is larger than ${CONFIG.maxUploadMB} MB. Choose a smaller file or send it by email.`;
+    else if (!/\.(docx?|pdf|txt|rtf|odt)$/i.test(f.name)) msg = "Choose a Word, PDF, text or RTF file.";
+  }
+  if (msg) input.value = "";
+  name.textContent = !msg && f ? `${f.name} (${(f.size / 1048576).toFixed(1)} MB)` : "Choose a file";
+  err.textContent = msg; wrap.classList.toggle("invalid", !!msg);
+  return msg;
+}
+function validate(form) {
+  let first = null;
+  $$("[data-field]", form).forEach(wrap => {
+    const input = $("input,select,textarea", wrap), err = $(".err", wrap); if (!input || input.type === "file") return;
+    let msg = "";
+    if (input.required && !input.value.trim()) msg = input.dataset.msg || "This field is required.";
+    else if (input.type === "email" && input.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())) msg = "Enter a valid email address, like name@example.com.";
+    else if (input.type === "number" && input.value !== "" && Number(input.value) < 0) msg = "Enter a number that is zero or higher.";
+    err.textContent = msg; wrap.classList.toggle("invalid", !!msg); input.setAttribute("aria-invalid", msg ? "true" : "false");
+    if (msg && !first) first = input;
+  });
+  const file = $('input[type="file"]', form);
+  if (file && checkFile(file) && !first) first = file;
+  return first;
+}
+function setStatus(form, type, text) { const s = $(".status", form); s.hidden = false; s.className = "status " + type; s.textContent = text; }
+const MESSAGES = {
+  author: "Thank you. Your project is in. We will reply by email soon.",
+  contact: "Message sent. We will get back to you soon.",
+  newsletter: "You are on the list. Watch your inbox."
+};
+async function savePublicRequest(form, kind) {
+  const fd = new FormData(form); const values = {};
+  for (const [key,value] of fd.entries()) { if (key === "_gotcha" || key === "manuscript") continue; if (key === "help") { (values.help ||= []).push(String(value)); } else if (typeof value === "string" && value.trim()) values[key] = value.trim(); }
+  let manuscriptPath = null; const file = fd.get("manuscript");
+  if (kind === "author" && file && file.size) {
+    if (file.size > CONFIG.maxUploadMB * 1024 * 1024) throw new Error(`The manuscript must be under ${CONFIG.maxUploadMB} MB.`);
+    const path = `public/${crypto.randomUUID()}-${String(file.name).replace(/[^a-zA-Z0-9._-]/g,"_")}`;
+    const {error:uploadError}=await sb.storage.from("global-pen-manuscripts").upload(path,file,{upsert:false,contentType:file.type||"application/octet-stream"});
+    if(uploadError) throw uploadError; manuscriptPath=path;
+  }
+  const requestType = kind === "author" ? "author" : kind === "contact" ? "contact" : "newsletter";
+  const name = values.full_name || values.name || values.email || "Website visitor";
+  const {error}=await sb.from("global_pen_requests").insert({request_type:requestType,name,email:values.email||"",details:values,manuscript_path:manuscriptPath,status:"new"});
+  if(error) throw error;
+}
+document.addEventListener("submit", async e => {
+  if(e.target.id === "auth-form") { e.preventDefault(); const mode=e.submitter?.dataset.authMode||"signin"; await handleAuthSubmit(e.target,mode); return; }
+  if(e.target.id === "profile-form") { e.preventDefault(); if(!sb)return; const {data:{user}}=await sb.auth.getUser(); if(!user)return; const fd=new FormData(e.target); const out=$("#profile-status");out.hidden=false;const {error}=await sb.from("global_pen_author_profiles").upsert({user_id:user.id,display_name:String(fd.get("display_name")||"").trim(),bio:String(fd.get("bio")||"").trim(),updated_at:new Date().toISOString()},{onConflict:"user_id"});out.className="market-status "+(error?"error":"ok");out.textContent=error?error.message:"Profile saved.";return; }
+  if(e.target.id === "book-submit-form") { e.preventDefault(); await submitBook(e.target); return; }
+  const form = e.target.closest("form[data-form]"); if (!form) return;
+  e.preventDefault();
+  const kind = form.dataset.form;
+  const bad = validate(form);
+  if (bad) { bad.focus(); setStatus(form, "error", "Some details need attention. Check the highlighted fields and try again."); return; }
+  if ($('[name="_gotcha"]', form).value) return; /* spam trap */
+  const btn = $('[type="submit"]', form), label = btn.textContent;
+  btn.disabled = true; btn.textContent = "Sending...";
+  const endpoint = CONFIG.endpoints[kind];
+  if (!endpoint) {
+    if (sb) {
+      try { await savePublicRequest(form, kind); setStatus(form, "ok", MESSAGES[kind]); form.reset(); const fn=$("#a-file-name"); if(fn)fn.textContent="Choose a file"; }
+      catch(err) { setStatus(form, "error", `Your request was not saved: ${err.message||"Please try again."}`); }
+    } else {
+      await sleep(250);
+      setStatus(form, "info", "The form is ready, but Buklux still needs the Supabase public key to receive submissions.");
+    }
+    btn.disabled = false; btn.textContent = label; return;
+  }
+  try {
+    const res = await fetch(endpoint, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
+    if (!res.ok) throw new Error("Request failed");
+    setStatus(form, "ok", MESSAGES[kind]); form.reset();
+    const fn = $("#a-file-name"); if (fn) fn.textContent = "Choose a file";
+    $$('[data-action="stage"]').forEach(c => c.setAttribute("aria-pressed", "false"));
+  } catch (err) {
+    setStatus(form, "error", "Something went wrong and your message was not sent. Please try again, or email us directly.");
+  }
+  btn.disabled = false; btn.textContent = label;
+});
+
+/* ---------- Start ---------- */
+addEventListener("hashchange", route);
+renderFooter();
+if (sb) sb.auth.onAuthStateChange((_event,session)=>{currentUser=session?.user||null;});
+route();
+</script>
+</body>
+</html>
