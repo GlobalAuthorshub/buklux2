@@ -1244,7 +1244,21 @@ async function handleAuthSubmit(form, mode) {
 async function submitBook(form) {
   const out=$("#book-submit-status",form);out.hidden=false;out.className="market-status";out.textContent="Submitting…";
   if(!sb){out.className="market-status error";out.textContent="Supabase is not configured.";return;}
-  const {data:{user}}=await sb.auth.getUser();if(!user){out.className="market-status error";out.textContent="Please sign in first.";return;}
+  const {data:{user}}=await sb.auth.getUser();
+
+if(!user){
+  out.className="market-status error";
+  out.textContent="Please sign in first.";
+  return;
+}
+
+const role = user.user_metadata?.buklux_role || "reader";
+
+if(role !== "author"){
+  out.className="market-status error";
+  out.textContent="Your account is registered as a Reader. Become an Author to submit a book.";
+  return;
+}
   const fd=new FormData(form), epub=fd.get("epub"), pdf=fd.get("pdf"), coverFile=fd.get("cover");
   if((!epub||!epub.size)&&(!pdf||!pdf.size)){out.className="market-status error";out.textContent="Please upload an EPUB or PDF file.";return;}
   if((epub?.size||0)>50*1024*1024||(pdf?.size||0)>50*1024*1024||(coverFile?.size||0)>8*1024*1024){out.className="market-status error";out.textContent="Book files must be under 50 MB and the cover under 8 MB.";return;}
